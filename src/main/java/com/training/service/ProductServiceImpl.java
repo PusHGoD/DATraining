@@ -1,5 +1,11 @@
 package com.training.service;
 
-public class ProductServiceImpl implements ProductService{
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.training.repository.ProductRepository;
+
+public class ProductServiceImpl implements ProductService {
+
+	@Autowired
+	private ProductRepository repository;
 }

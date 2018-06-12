@@ -1,5 +1,6 @@
 package com.training.model;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -16,6 +17,8 @@ public class Time {
 	private int month;
 	private int quarter;
 	private int year;
+	private LocalDate createdAt;
+	private LocalDate modifiedAt;
 
 	@Id
 	@GeneratedValue(generator = "uuid2")
@@ -56,4 +59,21 @@ public class Time {
 		this.year = year;
 	}
 
+	@Column(name = "created_at")
+	public LocalDate getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDate createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	@Column(name = "modified_at")
+	public LocalDate getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(LocalDate modifiedAt) {
+		this.modifiedAt = modifiedAt;
+	}
 }
