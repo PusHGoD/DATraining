@@ -1,23 +1,33 @@
 package com.training.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
+@Table(name = "location")
 public class Location {
 
 	private UUID locationId;
 	private String country;
 	private String city;
-	private LocalDate createdAt;
-	private LocalDate modifiedAt;
+	private LocalDateTime createdAt;
+	private LocalDateTime modifiedAt;
+	private Set<Sales> sales;
 
 	@Id
 	@GeneratedValue(generator = "uuid2")
@@ -50,20 +60,32 @@ public class Location {
 	}
 
 	@Column(name = "created_at")
-	public LocalDate getCreatedAt() {
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSS")
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDate createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	@Column(name = "modified_at")
-	public LocalDate getModifiedAt() {
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSS")
+	public LocalDateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
-	public void setModifiedAt(LocalDate modifiedAt) {
+	public void setModifiedAt(LocalDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "product_id")
+	public Set<Sales> getSales() {
+		return sales;
+	}
+
+	public void setSales(Set<Sales> sales) {
+		this.sales = sales;
 	}
 }
