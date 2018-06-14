@@ -8,7 +8,9 @@ import com.training.model.Product;
 
 @Service
 public interface ProductService {
-	public List<Product> getAllProducts();
+
+	public List<com.training.model.cassandra.Product> getAllProducts();
 
 	public Product addProduct(Product product);
+
 }

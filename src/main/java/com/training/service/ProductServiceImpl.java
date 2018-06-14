@@ -1,30 +1,33 @@
 package com.training.service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.training.model.Product;
+import com.training.repository.ProductCassandraRepository;
 import com.training.repository.ProductRepository;
+import com.training.utils.DateTimeUtil;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
 	@Autowired
-	private ProductRepository repository;
+	private ProductCassandraRepository cassandraRepository;
+
+	@Autowired
+	private ProductRepository jpaRepository;
 
 	@Override
-	public List<Product> getAllProducts() {
-		return repository.findAll();
+	public List<com.training.model.cassandra.Product> getAllProducts() {
+		return cassandraRepository.findAll();
 	}
 
 	@Override
 	public Product addProduct(Product product) {
-		product.setCreatedAt(LocalDateTime.now());
-		product.setModifiedAt(LocalDateTime.now());
-		return repository.save(product);
+		product.setCreatedAt(DateTimeUtil.getCurrent());
+		product.setModifiedAt(DateTimeUtil.getCurrent());
+		return jpaRepository.save(product);
 	}
 }

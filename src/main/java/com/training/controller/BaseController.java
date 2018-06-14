@@ -1,34 +1,32 @@
 package com.training.controller;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
-@Controller
+@RestControllerAdvice
 public class BaseController {
 
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	@ExceptionHandler
-	public void notFoundError() {
-
+	@ExceptionHandler(NotFoundException.class)
+	public ResponseEntity<String> notFoundError() {
+		return new ResponseEntity<>("URL not found", HttpStatus.NOT_FOUND);
 	}
 
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler
-	public void internalError() {
-
-	}
-
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler
-	public void badRequestError() {
-
-	}
-
-	@ResponseStatus(HttpStatus.FORBIDDEN)
-	@ExceptionHandler
-	public void forbiddenError() {
-
-	}
+	// @ExceptionHandler(Throwable.class)
+	// public ResponseEntity<String> internalError() {
+	//
+	// }
+	//
+	// @ExceptionHandler(Throwable.class)
+	// public ResponseEntity<String> badRequestError() {
+	//
+	// }
+	//
+	// @ExceptionHandler(Throwable.class)
+	// public ResponseEntity<String> forbiddenError() {
+	//
+	// }
 }
