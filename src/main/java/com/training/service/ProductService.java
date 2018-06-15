@@ -3,14 +3,19 @@ package com.training.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.training.model.Product;
 
 @Service
 public interface ProductService {
 
-	public List<com.training.model.cassandra.Product> getAllProducts();
+	@Transactional(readOnly = true)
+	public List<com.training.model.cassandra.ProductCassandra> getAllProducts();
 
+	@Transactional(readOnly = false)
 	public Product addProduct(Product product);
 
+	@Transactional(readOnly = false)
+	public int updateProduct(Product product);
 }

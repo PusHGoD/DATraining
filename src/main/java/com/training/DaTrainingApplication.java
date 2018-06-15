@@ -13,17 +13,4 @@ public class DaTrainingApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DaTrainingApplication.class, args);
 	}
-
-	// @Bean
-	// @Primary
-	// @ConfigurationProperties(prefix = "spring.datasource")
-	// public Object primaryDataSource() {
-	// return DataSourceBuilder.create().build();
-	// }
-	//
-	// @Bean
-	// @ConfigurationProperties(prefix = "spring.cassandra.datasource")
-	// public Object cassandraDataSource() {
-	// return DataSourceBuilder.create().build();
-	// }
 }

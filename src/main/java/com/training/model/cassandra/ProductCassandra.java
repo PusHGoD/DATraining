@@ -4,12 +4,16 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
+import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 
+import com.datastax.driver.core.DataType.Name;
+
 @Table("product")
-public class Product implements Serializable {
+public class ProductCassandra implements Serializable {
 
 	/**
 	 * 
@@ -23,7 +27,8 @@ public class Product implements Serializable {
 	private LocalDateTime createdAt;
 	private LocalDateTime modifiedAt;
 
-	@PrimaryKey
+	@PrimaryKeyColumn(name = "product_id", type = PrimaryKeyType.PARTITIONED, ordinal = 1)
+	@CassandraType(type = Name.UUID)
 	public UUID getProductId() {
 		return productId;
 	}

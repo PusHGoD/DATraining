@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.training.model.Product;
-import com.training.repository.ProductCassandraRepository;
+import com.training.repository.ProductCassRepository;
 import com.training.repository.ProductRepository;
 import com.training.utils.DateTimeUtil;
 
@@ -14,13 +14,13 @@ import com.training.utils.DateTimeUtil;
 public class ProductServiceImpl implements ProductService {
 
 	@Autowired
-	private ProductCassandraRepository cassandraRepository;
+	private ProductCassRepository cassandraRepository;
 
 	@Autowired
 	private ProductRepository jpaRepository;
 
 	@Override
-	public List<com.training.model.cassandra.Product> getAllProducts() {
+	public List<com.training.model.cassandra.ProductCassandra> getAllProducts() {
 		return cassandraRepository.findAll();
 	}
 
@@ -30,4 +30,14 @@ public class ProductServiceImpl implements ProductService {
 		product.setModifiedAt(DateTimeUtil.getCurrent());
 		return jpaRepository.save(product);
 	}
+
+	@Override
+	public int updateProduct(Product product) {
+		product.setModifiedAt(DateTimeUtil.getCurrent());
+		// jpaRepository.save(product);
+		jpaRepository.updateProduct(product.getItem(), product.getsClass(), product.getInventory(),
+				product.getModifiedAt(), product.getProductId());
+		return 1;
+	}
+
 }
