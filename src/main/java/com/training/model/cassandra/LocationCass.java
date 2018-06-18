@@ -12,56 +12,40 @@ import org.springframework.data.cassandra.core.mapping.Table;
 
 import com.datastax.driver.core.DataType.Name;
 
-@Table("product")
-public class ProductCassandra implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	private UUID productId;
-	private int item;
-	private String sClass;
-	private String inventory;
+@Table("location")
+public class LocationCass implements Serializable {
+	private UUID locationId;
+	private String country;
+	private String city;
 	private LocalDateTime createdAt;
 	private LocalDateTime modifiedAt;
 
-	@PrimaryKeyColumn(name = "product_id", type = PrimaryKeyType.PARTITIONED, ordinal = 1)
+	@PrimaryKeyColumn(name = "location_id", type = PrimaryKeyType.PARTITIONED, ordinal = 1)
 	@CassandraType(type = Name.UUID)
-	public UUID getProductId() {
-		return productId;
+	public UUID getLocationId() {
+		return locationId;
 	}
 
-	public void setProductId(UUID productId) {
-		this.productId = productId;
+	public void setLocationId(UUID locationId) {
+		this.locationId = locationId;
 	}
 
-	@Column("item")
-	public int getItem() {
-		return item;
+	@Column("country")
+	public String getCountry() {
+		return country;
 	}
 
-	public void setItem(int item) {
-		this.item = item;
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
-	@Column("class")
-	public String getsClass() {
-		return sClass;
+	@Column("city")
+	public String getCity() {
+		return city;
 	}
 
-	public void setsClass(String sClass) {
-		this.sClass = sClass;
-	}
-
-	@Column("inventory")
-	public String getInventory() {
-		return inventory;
-	}
-
-	public void setInventory(String inventory) {
-		this.inventory = inventory;
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	@Column("created_at")

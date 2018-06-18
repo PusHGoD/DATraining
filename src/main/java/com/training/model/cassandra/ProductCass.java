@@ -1,14 +1,24 @@
-package com.training.model.dto;
+package com.training.model.cassandra;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.training.model.Product;
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
+import org.springframework.data.cassandra.core.mapping.CassandraType;
+import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
+import org.springframework.data.cassandra.core.mapping.Table;
 
-public class ProductDTO {
+import com.datastax.driver.core.DataType.Name;
+
+@Table("product")
+public class ProductCass implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private UUID productId;
 	private int item;
@@ -17,11 +27,10 @@ public class ProductDTO {
 	private LocalDateTime createdAt;
 	private LocalDateTime modifiedAt;
 
-	public ProductDTO() {
-
+	public ProductCass() {
 	}
 
-	public ProductDTO(UUID productId, int item, String sClass, String inventory, LocalDateTime createdAt,
+	public ProductCass(UUID productId, int item, String sClass, String inventory, LocalDateTime createdAt,
 			LocalDateTime modifiedAt) {
 		this.productId = productId;
 		this.item = item;
@@ -31,16 +40,17 @@ public class ProductDTO {
 		this.modifiedAt = modifiedAt;
 	}
 
-	@JsonIgnore
+	@PrimaryKeyColumn(name = "product_id", type = PrimaryKeyType.PARTITIONED, ordinal = 1)
+	@CassandraType(type = Name.UUID)
 	public UUID getProductId() {
 		return productId;
 	}
 
-	@JsonProperty("productId")
 	public void setProductId(UUID productId) {
 		this.productId = productId;
 	}
 
+	@Column("item")
 	public int getItem() {
 		return item;
 	}
@@ -49,7 +59,7 @@ public class ProductDTO {
 		this.item = item;
 	}
 
-	@JsonProperty("class")
+	@Column("class")
 	public String getsClass() {
 		return sClass;
 	}
@@ -58,6 +68,7 @@ public class ProductDTO {
 		this.sClass = sClass;
 	}
 
+	@Column("inventory")
 	public String getInventory() {
 		return inventory;
 	}
@@ -66,22 +77,20 @@ public class ProductDTO {
 		this.inventory = inventory;
 	}
 
-	@JsonIgnore
+	@Column("created_at")
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	@JsonProperty("createdAt")
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	@JsonIgnore
+	@Column("modified_at")
 	public LocalDateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
-	@JsonProperty("modifiedAt")
 	public void setModifiedAt(LocalDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}

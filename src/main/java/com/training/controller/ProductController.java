@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.training.exception.BadRequestException;
 import com.training.model.DBType;
 import com.training.model.Product;
+import com.training.model.cassandra.ProductCass;
 import com.training.model.dto.ProductDTO;
 import com.training.service.ProductService;
 
@@ -27,7 +28,7 @@ public class ProductController {
 
 	@GetMapping(value = "/", headers = "Accept=application/json")
 	public List<ProductDTO> getAllProducts() {
-		List<com.training.model.cassandra.ProductCassandra> list = service.getAllProducts();
+		List<com.training.model.cassandra.ProductCass> list = service.getAllProducts();
 		List<ProductDTO> dtoList = list.stream().map(product -> convertToDTO(product, DBType.CASSANDRA))
 				.collect(Collectors.toList());
 		return dtoList;
@@ -39,15 +40,14 @@ public class ProductController {
 	}
 
 	@PutMapping(value = "/update", headers = "Accept=application/json")
-	public String updateProduct(@RequestBody ProductDTO product) {
-		service.updateProduct(convertToJPAEntity(product));
-		return "Update";
+	public ProductDTO updateProduct(@RequestBody ProductDTO product) {
+		return convertToDTO(service.updateProduct(convertToJPAEntity(product)), DBType.JPA);
 	}
 
-	// @DeleteMapping(value = "/delete", headers = "Accept=application/json")
-	// public String deleteProduct(@RequestBody Product product) {
-	// return null;
-	// }
+	@DeleteMapping(value = "/delete", headers = "Accept=application/json")
+	public String deleteProduct(@RequestBody Product product) {
+		return "Delete success";
+	}
 
 	public ProductDTO convertToDTO(Object obj, DBType type) {
 		ProductDTO dto = new ProductDTO();
@@ -60,7 +60,7 @@ public class ProductController {
 			dto.setCreatedAt(product.getCreatedAt());
 			dto.setModifiedAt(product.getModifiedAt());
 		} else if (type == DBType.CASSANDRA) {
-			com.training.model.cassandra.ProductCassandra product = (com.training.model.cassandra.ProductCassandra) obj;
+			ProductCass product = (ProductCass) obj;
 			dto.setProductId(product.getProductId());
 			dto.setItem(product.getItem());
 			dto.setsClass(product.getsClass());
@@ -84,8 +84,8 @@ public class ProductController {
 		return product;
 	}
 
-	public com.training.model.cassandra.ProductCassandra convertToCassandraEntity(ProductDTO dto) {
-		com.training.model.cassandra.ProductCassandra product = new com.training.model.cassandra.ProductCassandra();
+	public ProductCass convertToCassandraEntity(ProductDTO dto) {
+		ProductCass product = new ProductCass();
 		product.setProductId(dto.getProductId());
 		product.setItem(dto.getItem());
 		product.setsClass(dto.getsClass());

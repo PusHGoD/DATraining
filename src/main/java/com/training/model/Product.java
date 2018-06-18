@@ -1,24 +1,13 @@
 package com.training.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "product")
@@ -30,13 +19,23 @@ public class Product {
 	private String inventory;
 	private LocalDateTime createdAt;
 	private LocalDateTime modifiedAt;
-	private Set<Sales> sales;
+
+	public Product() {
+	}
+
+	public Product(UUID productId, int item, String sClass, String inventory, LocalDateTime createdAt,
+			LocalDateTime modifiedAt) {
+		this.productId = productId;
+		this.item = item;
+		this.sClass = sClass;
+		this.inventory = inventory;
+		this.createdAt = createdAt;
+		this.modifiedAt = modifiedAt;
+	}
 
 	@Id
 	@GeneratedValue
-	// @GeneratedValue(generator = "uuid2")
-	// @GenericGenerator(name = "uuid2", strategy = "uuid2")
-	@Column(name = "product_id", unique = true)
+	@Column(name = "product_id", unique = true, nullable = false)
 	public UUID getProductId() {
 		return productId;
 	}
@@ -45,7 +44,7 @@ public class Product {
 		this.productId = productId;
 	}
 
-	@Column(name = "item")
+	@Column(name = "item", nullable = false)
 	public int getItem() {
 		return item;
 	}
@@ -54,8 +53,7 @@ public class Product {
 		this.item = item;
 	}
 
-	@Column(name = "[class]")
-	@JsonProperty("class")
+	@Column(name = "[class]", nullable = false)
 	public String getsClass() {
 		return sClass;
 	}
@@ -64,7 +62,7 @@ public class Product {
 		this.sClass = sClass;
 	}
 
-	@Column(name = "inventory")
+	@Column(name = "inventory", nullable = false)
 	public String getInventory() {
 		return inventory;
 	}
@@ -73,8 +71,7 @@ public class Product {
 		this.inventory = inventory;
 	}
 
-	@Column(name = "created_at")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSS")
+	@Column(name = "created_at", nullable = false, updatable = false)
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -83,24 +80,13 @@ public class Product {
 		this.createdAt = createdAt;
 	}
 
-	@Column(name = "modified_at")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSS")
+	@Column(name = "modified_at", nullable = false)
 	public LocalDateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
 	public void setModifiedAt(LocalDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY)
-	@JsonIgnore
-	public Set<Sales> getSales() {
-		return sales;
-	}
-
-	public void setSales(Set<Sales> sales) {
-		this.sales = sales;
 	}
 
 }

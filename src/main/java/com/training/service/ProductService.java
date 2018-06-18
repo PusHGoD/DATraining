@@ -11,11 +11,11 @@ import com.training.model.Product;
 public interface ProductService {
 
 	@Transactional(readOnly = true)
-	public List<com.training.model.cassandra.ProductCassandra> getAllProducts();
+	public List<com.training.model.cassandra.ProductCass> getAllProducts();
 
 	@Transactional(readOnly = false)
 	public Product addProduct(Product product);
 
 	@Transactional(readOnly = false)
-	public int updateProduct(Product product);
+	public Product updateProduct(Product product);
 }

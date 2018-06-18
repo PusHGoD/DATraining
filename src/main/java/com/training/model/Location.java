@@ -30,9 +30,8 @@ public class Location {
 	private Set<Sales> sales;
 
 	@Id
-	@GeneratedValue(generator = "uuid2")
-	@GenericGenerator(name = "uuid2", strategy = "uuid2")
-	@Column(name = "location_id", columnDefinition = "BINARY(16)")
+	@GeneratedValue
+	@Column(name = "location_id", unique = true, nullable = false)
 	public UUID getLocationId() {
 		return locationId;
 	}

@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.springframework.data.cassandra.repository.CassandraRepository;
 
-import com.training.model.cassandra.ProductCass;
+import com.training.model.Time;
 
-public interface ProductCassRepository extends CassandraRepository<ProductCass, UUID> {
+public interface TimeCassRepository extends CassandraRepository<Time, UUID> {
 
 }

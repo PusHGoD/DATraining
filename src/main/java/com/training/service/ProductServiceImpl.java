@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.training.exception.NoDataFoundException;
 import com.training.model.Product;
+import com.training.model.cassandra.ProductCass;
 import com.training.repository.ProductCassRepository;
 import com.training.repository.ProductRepository;
 import com.training.utils.DateTimeUtil;
@@ -20,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
 	private ProductRepository jpaRepository;
 
 	@Override
-	public List<com.training.model.cassandra.ProductCassandra> getAllProducts() {
+	public List<ProductCass> getAllProducts() {
 		return cassandraRepository.findAll();
 	}
 
@@ -32,12 +34,12 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int updateProduct(Product product) {
+	public Product updateProduct(Product product) {
+		if (!jpaRepository.findById(product.getProductId()).isPresent()) {
+			throw new NoDataFoundException("Product ID '" + product.getProductId() + "' not found in DB");
+		}
 		product.setModifiedAt(DateTimeUtil.getCurrent());
-		// jpaRepository.save(product);
-		jpaRepository.updateProduct(product.getItem(), product.getsClass(), product.getInventory(),
-				product.getModifiedAt(), product.getProductId());
-		return 1;
+		return jpaRepository.save(product);
 	}
 
 }
