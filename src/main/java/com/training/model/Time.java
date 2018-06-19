@@ -1,6 +1,6 @@
 package com.training.model;
 
-import java.time.LocalDate;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
@@ -20,7 +20,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "time")
-public class Time {
+public class Time implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private UUID timeId;
 	private int month;
@@ -28,12 +33,10 @@ public class Time {
 	private int year;
 	private LocalDateTime createdAt;
 	private LocalDateTime modifiedAt;
-	private Set<Sales> sales;
 
 	@Id
-	@GeneratedValue(generator = "uuid2")
-	@GenericGenerator(name = "uuid2", strategy = "uuid2")
-	@Column(name = "time_id", columnDefinition = "BINARY(16)")
+	@GeneratedValue
+	@Column(name = "time_id", unique = true, nullable = false)
 	public UUID getTimeId() {
 		return timeId;
 	}
@@ -42,7 +45,7 @@ public class Time {
 		this.timeId = timeId;
 	}
 
-	@Column(name = "month")
+	@Column(name = "month", nullable = false)
 	public int getMonth() {
 		return month;
 	}
@@ -51,7 +54,7 @@ public class Time {
 		this.month = month;
 	}
 
-	@Column(name = "quarter")
+	@Column(name = "quarter", nullable = false)
 	public int getQuarter() {
 		return quarter;
 	}
@@ -60,7 +63,7 @@ public class Time {
 		this.quarter = quarter;
 	}
 
-	@Column(name = "year")
+	@Column(name = "year", nullable = false)
 	public int getYear() {
 		return year;
 	}
@@ -69,7 +72,7 @@ public class Time {
 		this.year = year;
 	}
 
-	@Column(name = "created_at")
+	@Column(name = "created_at", nullable = false)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSS")
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
@@ -79,7 +82,7 @@ public class Time {
 		this.createdAt = createdAt;
 	}
 
-	@Column(name = "modified_at")
+	@Column(name = "modified_at", nullable = false)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSS")
 	public LocalDateTime getModifiedAt() {
 		return modifiedAt;
@@ -89,13 +92,4 @@ public class Time {
 		this.modifiedAt = modifiedAt;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_id")
-	public Set<Sales> getSales() {
-		return sales;
-	}
-
-	public void setSales(Set<Sales> sales) {
-		this.sales = sales;
-	}
 }

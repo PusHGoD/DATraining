@@ -16,14 +16,19 @@ import com.training.utils.DateTimeUtil;
 public class ProductServiceImpl implements ProductService {
 
 	@Autowired
-	private ProductCassRepository cassandraRepository;
+	private ProductCassRepository cassRepository;
 
 	@Autowired
 	private ProductRepository jpaRepository;
 
 	@Override
 	public List<ProductCass> getAllProducts() {
-		return cassandraRepository.findAll();
+		return cassRepository.findAll();
+	}
+
+	@Override
+	public ProductCass getProductByItem(int item) {
+		return cassRepository.findOneByItem(item);
 	}
 
 	@Override

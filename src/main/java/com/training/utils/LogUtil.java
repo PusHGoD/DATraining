@@ -4,6 +4,10 @@ import org.slf4j.Logger;
 
 public class LogUtil {
 
+	public static void info(Logger logger, String msg) {
+		logger.info(msg);
+	}
+	
 	public static void debug(Logger logger, String msg) {
 		logger.debug(msg);
 	}

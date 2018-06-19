@@ -1,6 +1,6 @@
 package com.training.model;
 
-import java.time.LocalDate;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
@@ -14,20 +14,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "location")
-public class Location {
+public class Location implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private UUID locationId;
 	private String country;
 	private String city;
 	private LocalDateTime createdAt;
 	private LocalDateTime modifiedAt;
-	private Set<Sales> sales;
 
 	@Id
 	@GeneratedValue
@@ -40,7 +42,7 @@ public class Location {
 		this.locationId = locationId;
 	}
 
-	@Column(name = "country")
+	@Column(name = "country", nullable = false)
 	public String getCountry() {
 		return country;
 	}
@@ -49,7 +51,7 @@ public class Location {
 		this.country = country;
 	}
 
-	@Column(name = "city")
+	@Column(name = "city", nullable = false)
 	public String getCity() {
 		return city;
 	}
@@ -58,7 +60,7 @@ public class Location {
 		this.city = city;
 	}
 
-	@Column(name = "created_at")
+	@Column(name = "created_at", nullable = false)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSS")
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
@@ -68,7 +70,7 @@ public class Location {
 		this.createdAt = createdAt;
 	}
 
-	@Column(name = "modified_at")
+	@Column(name = "modified_at", nullable = false)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSS")
 	public LocalDateTime getModifiedAt() {
 		return modifiedAt;
@@ -78,13 +80,4 @@ public class Location {
 		this.modifiedAt = modifiedAt;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_id")
-	public Set<Sales> getSales() {
-		return sales;
-	}
-
-	public void setSales(Set<Sales> sales) {
-		this.sales = sales;
-	}
 }

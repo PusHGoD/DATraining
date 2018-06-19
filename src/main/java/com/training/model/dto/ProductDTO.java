@@ -36,7 +36,7 @@ public class ProductDTO {
 		return productId;
 	}
 
-	@JsonProperty("productId")
+	@JsonProperty
 	public void setProductId(UUID productId) {
 		this.productId = productId;
 	}
@@ -71,7 +71,7 @@ public class ProductDTO {
 		return createdAt;
 	}
 
-	@JsonProperty("createdAt")
+	@JsonProperty
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
@@ -81,7 +81,7 @@ public class ProductDTO {
 		return modifiedAt;
 	}
 
-	@JsonProperty("modifiedAt")
+	@JsonProperty
 	public void setModifiedAt(LocalDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}

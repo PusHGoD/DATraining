@@ -3,9 +3,12 @@ package com.training.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.training.exception.BadRequestException;
+import com.training.exception.NoDataFoundException;
 import com.training.model.DBType;
 import com.training.model.Product;
 import com.training.model.cassandra.ProductCass;
@@ -23,15 +27,23 @@ import com.training.service.ProductService;
 @RequestMapping(value = "/product")
 public class ProductController {
 
+	public static final Logger log = LoggerFactory.getLogger(ProductController.class);
+
 	@Autowired
 	private ProductService service;
 
 	@GetMapping(value = "/", headers = "Accept=application/json")
 	public List<ProductDTO> getAllProducts() {
-		List<com.training.model.cassandra.ProductCass> list = service.getAllProducts();
+		List<ProductCass> list = service.getAllProducts();
 		List<ProductDTO> dtoList = list.stream().map(product -> convertToDTO(product, DBType.CASSANDRA))
 				.collect(Collectors.toList());
 		return dtoList;
+	}
+
+	@GetMapping(value = "/{item}", headers = "Accept=application/json")
+	public ProductDTO getProductByItem(@PathVariable int item) {
+		ProductCass result = service.getProductByItem(item);
+		return convertToDTO(result, DBType.CASSANDRA);
 	}
 
 	@PostMapping(value = "/add", headers = "Accept=application/json")
@@ -51,6 +63,9 @@ public class ProductController {
 
 	public ProductDTO convertToDTO(Object obj, DBType type) {
 		ProductDTO dto = new ProductDTO();
+		if (obj == null) {
+			throw new NoDataFoundException("Not found product");
+		}
 		if (type == DBType.JPA) {
 			Product product = (Product) obj;
 			dto.setProductId(product.getProductId());
@@ -74,6 +89,9 @@ public class ProductController {
 	}
 
 	public Product convertToJPAEntity(ProductDTO dto) {
+		if (dto == null) {
+			throw new BadRequestException("Parameters not valid");
+		}
 		Product product = new Product();
 		product.setProductId(dto.getProductId());
 		product.setItem(dto.getItem());
@@ -85,6 +103,9 @@ public class ProductController {
 	}
 
 	public ProductCass convertToCassandraEntity(ProductDTO dto) {
+		if (dto == null) {
+			throw new BadRequestException("Parameters not valid");
+		}
 		ProductCass product = new ProductCass();
 		product.setProductId(dto.getProductId());
 		product.setItem(dto.getItem());
