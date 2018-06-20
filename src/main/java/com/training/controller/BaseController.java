@@ -17,6 +17,7 @@ import com.training.exception.BadRequestException;
 import com.training.exception.ForbiddenException;
 import com.training.exception.InternalException;
 import com.training.exception.NoDataFoundException;
+import com.training.utils.LogUtil;
 
 @RestControllerAdvice
 public class BaseController {
@@ -25,31 +26,36 @@ public class BaseController {
 
 	@ExceptionHandler(NoHandlerFoundException.class)
 	@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "URL not found")
-	public ResponseEntity<String> notFoundError() {
+	public ResponseEntity<String> notFoundError(NoHandlerFoundException ex) {
+		LogUtil.error(log, ex.getMessage());
 		return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 	}
 
 	@ExceptionHandler(NoDataFoundException.class)
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	public void notFoundDataError(NoDataFoundException ex, HttpServletResponse response) throws IOException {
+		LogUtil.error(log, ex.getMessage());
 		response.sendError(HttpStatus.NOT_FOUND.value());
 	}
 
 	@ExceptionHandler(InternalException.class)
-	public ResponseEntity<String> internalError() {
+	public ResponseEntity<String> internalError(InternalException ex) {
 		// Template
+		LogUtil.error(log, ex.getMessage());
 		return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@ExceptionHandler(BadRequestException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "URL have invalid request")
-	public ResponseEntity<String> badRequestError() {
+	public ResponseEntity<String> badRequestError(BadRequestException ex) {
+		LogUtil.error(log, ex.getMessage());
 		return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(ForbiddenException.class)
-	public ResponseEntity<String> forbiddenError() {
+	public ResponseEntity<String> forbiddenError(ForbiddenException ex) {
 		// Template
+		LogUtil.error(log, ex.getMessage());
 		return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
 	}
 }

@@ -82,5 +82,4 @@ public class TimeDTO {
 	public void setModifiedAt(LocalDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
-
 }

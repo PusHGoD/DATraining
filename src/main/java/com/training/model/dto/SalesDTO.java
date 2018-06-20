@@ -81,5 +81,4 @@ public class SalesDTO {
 	public void setModifiedAt(LocalDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
-
 }

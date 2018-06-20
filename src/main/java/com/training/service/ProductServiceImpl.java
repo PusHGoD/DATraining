@@ -2,6 +2,8 @@ package com.training.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,9 @@ import com.training.repository.ProductRepository;
 import com.training.utils.DateTimeUtil;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl extends BaseService implements ProductService {
+
+	public static final Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
 
 	@Autowired
 	private ProductCassRepository cassRepository;

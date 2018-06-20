@@ -3,9 +3,12 @@ package com.training.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.training.exception.BadRequestException;
@@ -32,16 +36,17 @@ public class ProductController {
 	@Autowired
 	private ProductService service;
 
-	@GetMapping(value = "/", headers = "Accept=application/json")
-	public List<ProductDTO> getAllProducts() {
+	@GetMapping(value = "/")
+	public List<ProductDTO> getAllProducts(HttpServletResponse response) {
 		List<ProductCass> list = service.getAllProducts();
 		List<ProductDTO> dtoList = list.stream().map(product -> convertToDTO(product, DBType.CASSANDRA))
 				.collect(Collectors.toList());
+		response.addHeader("Message", "Products: " + dtoList.size());
 		return dtoList;
 	}
 
-	@GetMapping(value = "/{item}", headers = "Accept=application/json")
-	public ProductDTO getProductByItem(@PathVariable int item) {
+	@GetMapping(value = "")
+	public ProductDTO getProductByItem(@RequestParam("item") int item) {
 		ProductCass result = service.getProductByItem(item);
 		return convertToDTO(result, DBType.CASSANDRA);
 	}

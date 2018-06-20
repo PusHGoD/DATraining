@@ -3,6 +3,8 @@ package com.training.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,12 +19,14 @@ import com.training.model.DBType;
 import com.training.model.Location;
 import com.training.model.cassandra.LocationCass;
 import com.training.model.dto.LocationDTO;
-import com.training.model.dto.ProductDTO;
 import com.training.service.LocationService;
 
 @RestController
 @RequestMapping("/location")
 public class LocationController {
+
+	public static final Logger log = LoggerFactory.getLogger(LocationController.class);
+
 	@Autowired
 	private LocationService service;
 
@@ -35,12 +39,12 @@ public class LocationController {
 	}
 
 	@PostMapping(value = "/add", headers = "Accept=application/json")
-	public LocationDTO addProduct(@RequestBody LocationDTO location) {
+	public LocationDTO addLocation(@RequestBody LocationDTO location) {
 		return convertToDTO(service.addLocation(convertToJPAEntity(location)), DBType.JPA);
 	}
 
 	@PutMapping(value = "/update", headers = "Accept=application/json")
-	public LocationDTO updateProduct(@RequestBody LocationDTO location) {
+	public LocationDTO updateLocation(@RequestBody LocationDTO location) {
 		return convertToDTO(service.updateLocation(convertToJPAEntity(location)), DBType.JPA);
 	}
 

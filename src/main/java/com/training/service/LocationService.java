@@ -9,7 +9,7 @@ import com.training.model.Location;
 import com.training.model.cassandra.LocationCass;
 
 @Service
-public interface LocationService {
+public interface LocationService{
 
 	@Transactional(readOnly = true)
 	public List<LocationCass> getAllLocations();
