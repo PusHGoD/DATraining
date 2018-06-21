@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.training.exception.NoDataFoundException;
-import com.training.model.Location;
 import com.training.model.cassandra.LocationCass;
+import com.training.model.jpa.Location;
 import com.training.repository.LocationCassRepository;
 import com.training.repository.LocationRepository;
 import com.training.utils.DateTimeUtil;

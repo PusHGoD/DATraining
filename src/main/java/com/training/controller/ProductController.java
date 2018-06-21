@@ -1,6 +1,7 @@
 package com.training.controller;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,9 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.training.exception.BadRequestException;
 import com.training.exception.NoDataFoundException;
 import com.training.model.DBType;
-import com.training.model.Product;
 import com.training.model.cassandra.ProductCass;
 import com.training.model.dto.ProductDTO;
+import com.training.model.jpa.Product;
 import com.training.service.ProductService;
 
 @RestController
@@ -36,35 +37,62 @@ public class ProductController {
 	@Autowired
 	private ProductService service;
 
-	@GetMapping(value = "/")
+	@GetMapping(value = "")
 	public List<ProductDTO> getAllProducts(HttpServletResponse response) {
 		List<ProductCass> list = service.getAllProducts();
 		List<ProductDTO> dtoList = list.stream().map(product -> convertToDTO(product, DBType.CASSANDRA))
 				.collect(Collectors.toList());
-		response.addHeader("Message", "Products: " + dtoList.size());
+		response.addHeader("Message", "Product size: " + dtoList.size());
 		return dtoList;
 	}
 
-	@GetMapping(value = "")
-	public ProductDTO getProductByItem(@RequestParam("item") int item) {
-		ProductCass result = service.getProductByItem(item);
+	@GetMapping(value = "", params = "id")
+	public ProductDTO getProductById(@RequestParam("id") UUID id, HttpServletResponse response) {
+		ProductCass result = service.getProductById(id);
+		response.addHeader("Location", "http://localhost:8080/product?id=" + id);
 		return convertToDTO(result, DBType.CASSANDRA);
 	}
 
+	@GetMapping(value = "", params = "item")
+	public ProductDTO getProductByItem(@RequestParam("item") int item, HttpServletResponse response) {
+		ProductCass result = service.getProductByItem(item);
+		response.addHeader("Location", "http://localhost:8080/product?id=" + result.getProductId());
+		return convertToDTO(result, DBType.CASSANDRA);
+	}
+
+	@GetMapping(value = "/jpa")
+	public List<ProductDTO> getAllProductsFromJpa(HttpServletResponse response) {
+		List<Product> list = service.getAllJpaProducts();
+		List<ProductDTO> dtoList = list.stream().map(product -> convertToDTO(product, DBType.JPA))
+				.collect(Collectors.toList());
+		response.addHeader("Message", "Product size: " + dtoList.size());
+		return dtoList;
+	}
+
+	@GetMapping(value = "/jpa", params = "id")
+	public ProductDTO getProductByIdFromJpa(@RequestParam("id") UUID id, HttpServletResponse response) {
+		Product result = service.getJpaProductById(id);
+		response.addHeader("Location", "http://localhost:8080/product?id=" + id);
+		return convertToDTO(result, DBType.JPA);
+	}
+
 	@PostMapping(value = "/add", headers = "Accept=application/json")
-	public ProductDTO addProduct(@RequestBody ProductDTO product) {
-		return convertToDTO(service.addProduct(convertToJPAEntity(product)), DBType.JPA);
+	public ProductDTO addProduct(@RequestBody ProductDTO product, HttpServletResponse response) {
+		Product result = service.addProduct(convertToJPAEntity(product));
+		response.addHeader("Location", "http://localhost:8080/product?id=" + result.getProductId());
+		return convertToDTO(result, DBType.JPA);
 	}
 
 	@PutMapping(value = "/update", headers = "Accept=application/json")
-	public ProductDTO updateProduct(@RequestBody ProductDTO product) {
+	public ProductDTO updateProduct(@RequestBody ProductDTO product, HttpServletResponse response) {
+		response.addHeader("Location", "http://localhost:8080/product?id=" + product.getProductId());
 		return convertToDTO(service.updateProduct(convertToJPAEntity(product)), DBType.JPA);
 	}
 
-	@DeleteMapping(value = "/delete", headers = "Accept=application/json")
-	public String deleteProduct(@RequestBody Product product) {
-		return "Delete success";
-	}
+	// @DeleteMapping(value = "/delete", headers = "Accept=application/json")
+	// public String deleteProduct(@RequestBody Product product) {
+	// return "Delete success";
+	// }
 
 	public ProductDTO convertToDTO(Object obj, DBType type) {
 		ProductDTO dto = new ProductDTO();

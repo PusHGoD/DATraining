@@ -1,10 +1,9 @@
 package com.training.model.cassandra;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 
+import org.joda.time.DateTime;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
@@ -12,7 +11,6 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 import com.datastax.driver.core.DataType.Name;
-import com.training.model.Sales;
 
 @Table("time")
 public class TimeCass implements Serializable {
@@ -21,8 +19,8 @@ public class TimeCass implements Serializable {
 	private int month;
 	private int quarter;
 	private int year;
-	private LocalDateTime createdAt;
-	private LocalDateTime modifiedAt;
+	private DateTime createdAt;
+	private DateTime modifiedAt;
 
 	@PrimaryKeyColumn(name = "time_id", type = PrimaryKeyType.PARTITIONED, ordinal = 1)
 	@CassandraType(type = Name.UUID)
@@ -62,20 +60,20 @@ public class TimeCass implements Serializable {
 	}
 
 	@Column("created_at")
-	public LocalDateTime getCreatedAt() {
+	public DateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
+	public void setCreatedAt(DateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	@Column("modified_at")
-	public LocalDateTime getModifiedAt() {
+	public DateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
-	public void setModifiedAt(LocalDateTime modifiedAt) {
+	public void setModifiedAt(DateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
 

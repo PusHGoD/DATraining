@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.training.exception.BadRequestException;
 import com.training.exception.NoDataFoundException;
 import com.training.model.DBType;
-import com.training.model.Location;
 import com.training.model.cassandra.LocationCass;
 import com.training.model.dto.LocationDTO;
+import com.training.model.jpa.Location;
 import com.training.service.LocationService;
 
 @RestController

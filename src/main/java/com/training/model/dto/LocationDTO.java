@@ -1,8 +1,10 @@
 package com.training.model.dto;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.joda.time.DateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -11,14 +13,14 @@ public class LocationDTO {
 	private UUID locationId;
 	private String country;
 	private String city;
-	private LocalDateTime createdAt;
-	private LocalDateTime modifiedAt;
+	private DateTime createdAt;
+	private DateTime modifiedAt;
 
 	public LocationDTO() {
 	}
 
-	public LocationDTO(UUID locationId, String country, String city, LocalDateTime createdAt,
-			LocalDateTime modifiedAt) {
+	public LocationDTO(UUID locationId, String country, String city, DateTime createdAt,
+			DateTime modifiedAt) {
 		this.locationId = locationId;
 		this.country = country;
 		this.city = city;
@@ -53,22 +55,24 @@ public class LocationDTO {
 	}
 
 	@JsonIgnore
-	public LocalDateTime getCreatedAt() {
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+	public DateTime getCreatedAt() {
 		return createdAt;
 	}
 
 	@JsonProperty
-	public void setCreatedAt(LocalDateTime createdAt) {
+	public void setCreatedAt(DateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	@JsonIgnore
-	public LocalDateTime getModifiedAt() {
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+	public DateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
 	@JsonProperty
-	public void setModifiedAt(LocalDateTime modifiedAt) {
+	public void setModifiedAt(DateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
 

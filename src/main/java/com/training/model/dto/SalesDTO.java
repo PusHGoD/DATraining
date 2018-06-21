@@ -1,57 +1,54 @@
 package com.training.model.dto;
 
-import java.time.LocalDateTime;
+import org.joda.time.DateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.training.model.Location;
-import com.training.model.Product;
-import com.training.model.Time;
 
 public class SalesDTO {
 
-	private Product product;
-	private Location location;
-	private Time time;
+	private int productId;
+	private int locationId;
+	private int timeId;
 	private int dollars;
-	private LocalDateTime createdAt;
-	private LocalDateTime modifiedAt;
+	private DateTime createdAt;
+	private DateTime modifiedAt;
 
 	public SalesDTO() {
 	}
 
-	public SalesDTO(Product product, Location location, Time time, int dollars, LocalDateTime createdAt,
-			LocalDateTime modifiedAt) {
-		this.product = product;
-		this.location = location;
-		this.time = time;
+	public SalesDTO(int productId, int locationId, int timeId, int dollars, DateTime createdAt, DateTime modifiedAt) {
+		this.productId = productId;
+		this.locationId = locationId;
+		this.timeId = timeId;
 		this.dollars = dollars;
 		this.createdAt = createdAt;
 		this.modifiedAt = modifiedAt;
 	}
 
-	public Product getProduct() {
-		return product;
+	public int getProductId() {
+		return productId;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProductId(int productId) {
+		this.productId = productId;
 	}
 
-	public Location getLocation() {
-		return location;
+	public int getLocationId() {
+		return locationId;
 	}
 
-	public void setLocation(Location location) {
-		this.location = location;
+	public void setLocationId(int locationId) {
+		this.locationId = locationId;
 	}
 
-	public Time getTime() {
-		return time;
+	public int getTimeId() {
+		return timeId;
 	}
 
-	public void setTime(Time time) {
-		this.time = time;
+	public void setTimeId(int timeId) {
+		this.timeId = timeId;
 	}
 
 	public int getDollars() {
@@ -63,22 +60,24 @@ public class SalesDTO {
 	}
 
 	@JsonIgnore
-	public LocalDateTime getCreatedAt() {
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+	public DateTime getCreatedAt() {
 		return createdAt;
 	}
 
 	@JsonProperty
-	public void setCreatedAt(LocalDateTime createdAt) {
+	public void setCreatedAt(DateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	@JsonIgnore
-	public LocalDateTime getModifiedAt() {
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+	public DateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
 	@JsonProperty
-	public void setModifiedAt(LocalDateTime modifiedAt) {
+	public void setModifiedAt(DateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
 }

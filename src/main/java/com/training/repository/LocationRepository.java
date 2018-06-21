@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.training.model.Location;
+import com.training.model.jpa.Location;
 
 @Repository
 public interface LocationRepository extends JpaRepository<Location, UUID> {

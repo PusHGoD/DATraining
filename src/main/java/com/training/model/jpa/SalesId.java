@@ -1,4 +1,4 @@
-package com.training.model;
+package com.training.model.jpa;
 
 import java.io.Serializable;
 

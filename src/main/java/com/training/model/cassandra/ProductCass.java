@@ -1,9 +1,12 @@
 package com.training.model.cassandra;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.joda.time.DateTime;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
@@ -11,6 +14,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 import com.datastax.driver.core.DataType.Name;
+import com.training.model.dto.ProductDTO;
 
 @Table("product")
 public class ProductCass implements Serializable {
@@ -24,14 +28,14 @@ public class ProductCass implements Serializable {
 	private int item;
 	private String sClass;
 	private String inventory;
-	private LocalDateTime createdAt;
-	private LocalDateTime modifiedAt;
+	private DateTime createdAt;
+	private DateTime modifiedAt;
 
 	public ProductCass() {
 	}
 
-	public ProductCass(UUID productId, int item, String sClass, String inventory, LocalDateTime createdAt,
-			LocalDateTime modifiedAt) {
+	public ProductCass(UUID productId, int item, String sClass, String inventory, DateTime createdAt,
+			DateTime modifiedAt) {
 		this.productId = productId;
 		this.item = item;
 		this.sClass = sClass;
@@ -78,20 +82,22 @@ public class ProductCass implements Serializable {
 	}
 
 	@Column("created_at")
-	public LocalDateTime getCreatedAt() {
+	@Temporal(TemporalType.TIMESTAMP)
+	public DateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
+	public void setCreatedAt(DateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	@Column("modified_at")
-	public LocalDateTime getModifiedAt() {
+	@Temporal(TemporalType.TIMESTAMP)
+	public DateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
-	public void setModifiedAt(LocalDateTime modifiedAt) {
+	public void setModifiedAt(DateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
 

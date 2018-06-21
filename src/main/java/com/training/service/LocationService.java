@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.training.model.Location;
 import com.training.model.cassandra.LocationCass;
+import com.training.model.jpa.Location;
 
 @Service
 public interface LocationService{

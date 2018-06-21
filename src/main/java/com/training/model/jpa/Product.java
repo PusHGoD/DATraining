@@ -1,7 +1,6 @@
-package com.training.model;
+package com.training.model.jpa;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -9,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.joda.time.DateTime;
 
 @Entity
 @Table(name = "product")
@@ -23,14 +24,14 @@ public class Product implements Serializable {
 	private int item;
 	private String sClass;
 	private String inventory;
-	private LocalDateTime createdAt;
-	private LocalDateTime modifiedAt;
+	private DateTime createdAt;
+	private DateTime modifiedAt;
 
 	public Product() {
 	}
 
-	public Product(UUID productId, int item, String sClass, String inventory, LocalDateTime createdAt,
-			LocalDateTime modifiedAt) {
+	public Product(UUID productId, int item, String sClass, String inventory, DateTime createdAt,
+			DateTime modifiedAt) {
 		this.productId = productId;
 		this.item = item;
 		this.sClass = sClass;
@@ -78,20 +79,20 @@ public class Product implements Serializable {
 	}
 
 	@Column(name = "created_at", nullable = false, updatable = false)
-	public LocalDateTime getCreatedAt() {
+	public DateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
+	public void setCreatedAt(DateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	@Column(name = "modified_at", nullable = false)
-	public LocalDateTime getModifiedAt() {
+	public DateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
-	public void setModifiedAt(LocalDateTime modifiedAt) {
+	public void setModifiedAt(DateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
 

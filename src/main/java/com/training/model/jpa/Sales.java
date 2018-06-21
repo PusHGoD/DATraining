@@ -1,7 +1,6 @@
-package com.training.model;
+package com.training.model.jpa;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -13,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.joda.time.DateTime;
 
 @Entity
 @Table(name = "sales")
@@ -29,11 +28,11 @@ public class Sales implements Serializable {
 	private Location location;
 	private Time time;
 	private int dollars;
-	private LocalDateTime createdAt;
-	private LocalDateTime modifiedAt;
+	private DateTime createdAt;
+	private DateTime modifiedAt;
 
-	public Sales(SalesId id, Product product, Location location, Time time, int dollars, LocalDateTime createdAt,
-			LocalDateTime modifiedAt) {
+	public Sales(SalesId id, Product product, Location location, Time time, int dollars, DateTime createdAt,
+			DateTime modifiedAt) {
 		this.id = id;
 		this.product = product;
 		this.location = location;
@@ -100,22 +99,20 @@ public class Sales implements Serializable {
 	}
 
 	@Column(name = "created_at", nullable = false)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSS")
-	public LocalDateTime getCreatedAt() {
+	public DateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
+	public void setCreatedAt(DateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	@Column(name = "modified_at", nullable = false)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSS")
-	public LocalDateTime getModifiedAt() {
+	public DateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
-	public void setModifiedAt(LocalDateTime modifiedAt) {
+	public void setModifiedAt(DateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
 }

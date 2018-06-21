@@ -17,8 +17,8 @@ public class WebFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		// Test Filter
-		response.addHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-		response.addHeader("Pragma", "no-cache");
+//		response.addHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+//		response.addHeader("Pragma", "no-cache");
 		filterChain.doFilter(request, response);
 	}
 }

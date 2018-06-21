@@ -1,9 +1,9 @@
 package com.training.model.cassandra;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.joda.time.DateTime;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
@@ -17,8 +17,8 @@ public class LocationCass implements Serializable {
 	private UUID locationId;
 	private String country;
 	private String city;
-	private LocalDateTime createdAt;
-	private LocalDateTime modifiedAt;
+	private DateTime createdAt;
+	private DateTime modifiedAt;
 
 	@PrimaryKeyColumn(name = "location_id", type = PrimaryKeyType.PARTITIONED, ordinal = 1)
 	@CassandraType(type = Name.UUID)
@@ -49,20 +49,20 @@ public class LocationCass implements Serializable {
 	}
 
 	@Column("created_at")
-	public LocalDateTime getCreatedAt() {
+	public DateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
+	public void setCreatedAt(DateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	@Column("modified_at")
-	public LocalDateTime getModifiedAt() {
+	public DateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
-	public void setModifiedAt(LocalDateTime modifiedAt) {
+	public void setModifiedAt(DateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
 
