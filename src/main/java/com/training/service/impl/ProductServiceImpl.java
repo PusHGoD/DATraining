@@ -1,11 +1,9 @@
-package com.training.service;
+package com.training.service.impl;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +12,12 @@ import com.training.model.cassandra.ProductCass;
 import com.training.model.jpa.Product;
 import com.training.repository.ProductCassRepository;
 import com.training.repository.ProductRepository;
+import com.training.service.BaseService;
+import com.training.service.ProductService;
 import com.training.utils.DateTimeUtil;
 
 @Service
 public class ProductServiceImpl extends BaseService implements ProductService {
-
-	public static final Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
 
 	@Autowired
 	private ProductCassRepository cassRepository;
@@ -63,12 +61,12 @@ public class ProductServiceImpl extends BaseService implements ProductService {
 	}
 
 	@Override
-	public List<Product> getAllJpaProducts() {
+	public List<Product> getAllProductsFromJpa() {
 		return jpaRepository.findAll();
 	}
 
 	@Override
-	public Product getJpaProductById(UUID id) {
+	public Product getProductByIdFromJpa(UUID id) {
 		Optional<Product> product = jpaRepository.findById(id);
 		if (!product.isPresent()) {
 			throw new NoDataFoundException("Product ID '" + id + "' not found in DB");

@@ -11,25 +11,23 @@ import org.springframework.stereotype.Component;
 
 import com.training.utils.LogUtil;
 
-@Component
 @Aspect
+@Component
 public class LogAspect {
 
-	@Pointcut("within(com.training.controller..*) || within(com.training.service..*)")
+	@Pointcut("within(com.training.controller.*) || within(com.training.service.*)")
 	public void doPointCut() {
 	}
 
 	@Before(value = "doPointCut()", argNames = "joinPoint")
 	public void before(JoinPoint joinPoint) {
 		Logger logger = LoggerFactory.getLogger(joinPoint.getTarget().getClass());
-		LogUtil.debug(logger, "Before method " + joinPoint.getSignature().getName() + "() in class "
-				+ joinPoint.getTarget().getClass().getName());
+		LogUtil.debug(logger, "Starting method " + joinPoint.getSignature().getName() + "().");
 	}
 
 	@After(value = "doPointCut()", argNames = "joinPoint")
 	public void after(JoinPoint joinPoint) {
 		Logger logger = LoggerFactory.getLogger(joinPoint.getTarget().getClass());
-		LogUtil.debug(logger, "After method " + joinPoint.getSignature().getName() + "() in class "
-				+ joinPoint.getTarget().getClass().getName());
+		LogUtil.debug(logger, "Ending method " + joinPoint.getSignature().getName() + "().");
 	}
 }

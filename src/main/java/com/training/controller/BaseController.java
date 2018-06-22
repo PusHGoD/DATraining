@@ -25,14 +25,12 @@ public class BaseController {
 	public static final Logger log = LoggerFactory.getLogger(BaseController.class);
 
 	@ExceptionHandler(NoHandlerFoundException.class)
-	@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "URL not found")
-	public ResponseEntity<String> notFoundError(NoHandlerFoundException ex) {
+	@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "URL Not Found")
+	public void notFoundError(NoHandlerFoundException ex) {
 		LogUtil.error(log, ex.getMessage());
-		return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 	}
 
 	@ExceptionHandler(NoDataFoundException.class)
-	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	public void notFoundDataError(NoDataFoundException ex, HttpServletResponse response) throws IOException {
 		LogUtil.error(log, ex.getMessage());
 		response.sendError(HttpStatus.NOT_FOUND.value());
@@ -46,10 +44,9 @@ public class BaseController {
 	}
 
 	@ExceptionHandler(BadRequestException.class)
-	@ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "URL have invalid request")
-	public ResponseEntity<String> badRequestError(BadRequestException ex) {
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "URL have invalid request")
+	public void badRequestError(BadRequestException ex) {
 		LogUtil.error(log, ex.getMessage());
-		return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(ForbiddenException.class)

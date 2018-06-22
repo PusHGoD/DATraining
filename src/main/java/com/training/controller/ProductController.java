@@ -62,7 +62,7 @@ public class ProductController {
 
 	@GetMapping(value = "/jpa")
 	public List<ProductDTO> getAllProductsFromJpa(HttpServletResponse response) {
-		List<Product> list = service.getAllJpaProducts();
+		List<Product> list = service.getAllProductsFromJpa();
 		List<ProductDTO> dtoList = list.stream().map(product -> convertToDTO(product, DBType.JPA))
 				.collect(Collectors.toList());
 		response.addHeader("Message", "Product size: " + dtoList.size());
@@ -71,7 +71,7 @@ public class ProductController {
 
 	@GetMapping(value = "/jpa", params = "id")
 	public ProductDTO getProductByIdFromJpa(@RequestParam("id") UUID id, HttpServletResponse response) {
-		Product result = service.getJpaProductById(id);
+		Product result = service.getProductByIdFromJpa(id);
 		response.addHeader("Location", "http://localhost:8080/product?id=" + id);
 		return convertToDTO(result, DBType.JPA);
 	}

@@ -19,8 +19,7 @@ public class LocationDTO {
 	public LocationDTO() {
 	}
 
-	public LocationDTO(UUID locationId, String country, String city, DateTime createdAt,
-			DateTime modifiedAt) {
+	public LocationDTO(UUID locationId, String country, String city, DateTime createdAt, DateTime modifiedAt) {
 		this.locationId = locationId;
 		this.country = country;
 		this.city = city;
@@ -28,7 +27,7 @@ public class LocationDTO {
 		this.modifiedAt = modifiedAt;
 	}
 
-	@JsonIgnore
+	// @JsonIgnore
 	public UUID getLocationId() {
 		return locationId;
 	}
@@ -54,8 +53,8 @@ public class LocationDTO {
 		this.city = city;
 	}
 
-	@JsonIgnore
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+	// @JsonIgnore
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
 	public DateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -65,8 +64,8 @@ public class LocationDTO {
 		this.createdAt = createdAt;
 	}
 
-	@JsonIgnore
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+	// @JsonIgnore
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
 	public DateTime getModifiedAt() {
 		return modifiedAt;
 	}

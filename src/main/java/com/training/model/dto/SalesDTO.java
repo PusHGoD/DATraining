@@ -60,7 +60,7 @@ public class SalesDTO {
 	}
 
 	@JsonIgnore
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
 	public DateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -71,7 +71,7 @@ public class SalesDTO {
 	}
 
 	@JsonIgnore
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
 	public DateTime getModifiedAt() {
 		return modifiedAt;
 	}

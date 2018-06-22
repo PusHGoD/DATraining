@@ -28,8 +28,8 @@ public interface ProductService {
 	public Product updateProduct(Product product);
 
 	@Transactional(readOnly = true)
-	public List<Product> getAllJpaProducts();
+	public List<Product> getAllProductsFromJpa();
 
 	@Transactional(readOnly = true)
-	public Product getJpaProductById(UUID id);
+	public Product getProductByIdFromJpa(UUID id);
 }
