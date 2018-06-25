@@ -1,28 +1,27 @@
 package com.training.model.dto;
 
+import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import org.joda.time.DateTime;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ProductDTO {
+public class ProductDTO implements Serializable{
 
 	private UUID productId;
 	private int item;
 	private String sClass;
 	private String inventory;
-	private DateTime createdAt;
-	private DateTime modifiedAt;
+	private ZonedDateTime createdAt;
+	private ZonedDateTime modifiedAt;
 
 	public ProductDTO() {
 
 	}
 
-	public ProductDTO(UUID productId, int item, String sClass, String inventory, DateTime createdAt,
-			DateTime modifiedAt) {
+	public ProductDTO(UUID productId, int item, String sClass, String inventory, ZonedDateTime createdAt,
+			ZonedDateTime modifiedAt) {
 		this.productId = productId;
 		this.item = item;
 		this.sClass = sClass;
@@ -68,23 +67,23 @@ public class ProductDTO {
 
 	// @JsonIgnore
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
-	public DateTime getCreatedAt() {
+	public ZonedDateTime getCreatedAt() {
 		return createdAt;
 	}
 
 	@JsonProperty
-	public void setCreatedAt(DateTime createdAt) {
+	public void setCreatedAt(ZonedDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	// @JsonIgnore
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
-	public DateTime getModifiedAt() {
+	public ZonedDateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
 	@JsonProperty
-	public void setModifiedAt(DateTime modifiedAt) {
+	public void setModifiedAt(ZonedDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
 }

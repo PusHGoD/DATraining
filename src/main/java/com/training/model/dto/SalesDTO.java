@@ -1,6 +1,6 @@
 package com.training.model.dto;
 
-import org.joda.time.DateTime;
+import java.time.ZonedDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,13 +12,13 @@ public class SalesDTO {
 	private int locationId;
 	private int timeId;
 	private int dollars;
-	private DateTime createdAt;
-	private DateTime modifiedAt;
+	private ZonedDateTime createdAt;
+	private ZonedDateTime modifiedAt;
 
 	public SalesDTO() {
 	}
 
-	public SalesDTO(int productId, int locationId, int timeId, int dollars, DateTime createdAt, DateTime modifiedAt) {
+	public SalesDTO(int productId, int locationId, int timeId, int dollars, ZonedDateTime createdAt, ZonedDateTime modifiedAt) {
 		this.productId = productId;
 		this.locationId = locationId;
 		this.timeId = timeId;
@@ -61,23 +61,23 @@ public class SalesDTO {
 
 	@JsonIgnore
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
-	public DateTime getCreatedAt() {
+	public ZonedDateTime getCreatedAt() {
 		return createdAt;
 	}
 
 	@JsonProperty
-	public void setCreatedAt(DateTime createdAt) {
+	public void setCreatedAt(ZonedDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	@JsonIgnore
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
-	public DateTime getModifiedAt() {
+	public ZonedDateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
 	@JsonProperty
-	public void setModifiedAt(DateTime modifiedAt) {
+	public void setModifiedAt(ZonedDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
 }

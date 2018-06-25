@@ -1,6 +1,7 @@
 package com.training.model.jpa;
 
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -8,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.joda.time.DateTime;
 
 @Entity
 @Table(name = "product")
@@ -24,14 +23,14 @@ public class Product implements Serializable {
 	private int item;
 	private String sClass;
 	private String inventory;
-	private DateTime createdAt;
-	private DateTime modifiedAt;
+	private ZonedDateTime createdAt;
+	private ZonedDateTime modifiedAt;
 
 	public Product() {
 	}
 
-	public Product(UUID productId, int item, String sClass, String inventory, DateTime createdAt,
-			DateTime modifiedAt) {
+	public Product(UUID productId, int item, String sClass, String inventory, ZonedDateTime createdAt,
+			ZonedDateTime modifiedAt) {
 		this.productId = productId;
 		this.item = item;
 		this.sClass = sClass;
@@ -79,20 +78,20 @@ public class Product implements Serializable {
 	}
 
 	@Column(name = "created_at", nullable = false, updatable = false)
-	public DateTime getCreatedAt() {
+	public ZonedDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(DateTime createdAt) {
+	public void setCreatedAt(ZonedDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	@Column(name = "modified_at", nullable = false)
-	public DateTime getModifiedAt() {
+	public ZonedDateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
-	public void setModifiedAt(DateTime modifiedAt) {
+	public void setModifiedAt(ZonedDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
 

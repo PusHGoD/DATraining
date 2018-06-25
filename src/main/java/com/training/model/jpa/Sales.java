@@ -1,6 +1,7 @@
 package com.training.model.jpa;
 
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -11,8 +12,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.joda.time.DateTime;
 
 @Entity
 @Table(name = "sales")
@@ -28,11 +27,11 @@ public class Sales implements Serializable {
 	private Location location;
 	private Time time;
 	private int dollars;
-	private DateTime createdAt;
-	private DateTime modifiedAt;
+	private ZonedDateTime createdAt;
+	private ZonedDateTime modifiedAt;
 
-	public Sales(SalesId id, Product product, Location location, Time time, int dollars, DateTime createdAt,
-			DateTime modifiedAt) {
+	public Sales(SalesId id, Product product, Location location, Time time, int dollars, ZonedDateTime createdAt,
+			ZonedDateTime modifiedAt) {
 		this.id = id;
 		this.product = product;
 		this.location = location;
@@ -99,20 +98,20 @@ public class Sales implements Serializable {
 	}
 
 	@Column(name = "created_at", nullable = false)
-	public DateTime getCreatedAt() {
+	public ZonedDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(DateTime createdAt) {
+	public void setCreatedAt(ZonedDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	@Column(name = "modified_at", nullable = false)
-	public DateTime getModifiedAt() {
+	public ZonedDateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
-	public void setModifiedAt(DateTime modifiedAt) {
+	public void setModifiedAt(ZonedDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
 }

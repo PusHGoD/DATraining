@@ -1,24 +1,22 @@
 package com.training.utils;
 
-import java.util.Date;
-
-import org.joda.time.DateTime;
+import java.time.ZonedDateTime;
 
 public class DateTimeUtil {
 
-	public static DateTime getCurrent() {
-		return DateTime.now();
+	public static ZonedDateTime getCurrent() {
+		return ZonedDateTime.now();
 	}
 
-	public static int getMonth(DateTime dateTime) {
-		return dateTime.getMonthOfYear();
+	public static int getMonth(ZonedDateTime dateTime) {
+		return dateTime.getMonthValue();
 	}
 
-	public static int getQuarter(DateTime dateTime) {
-		return (dateTime.getMonthOfYear() / 3) + 1;
+	public static int getQuarter(ZonedDateTime dateTime) {
+		return (dateTime.getMonthValue() / 3) + 1;
 	}
 
-	public static int getYear(DateTime dateTime) {
+	public static int getYear(ZonedDateTime dateTime) {
 		return dateTime.getYear();
 	}
 }

@@ -1,12 +1,12 @@
 package com.training.model.cassandra;
 
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.joda.time.DateTime;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
@@ -14,7 +14,6 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 import com.datastax.driver.core.DataType.Name;
-import com.training.model.dto.ProductDTO;
 
 @Table("product")
 public class ProductCass implements Serializable {
@@ -28,14 +27,14 @@ public class ProductCass implements Serializable {
 	private int item;
 	private String sClass;
 	private String inventory;
-	private DateTime createdAt;
-	private DateTime modifiedAt;
+	private ZonedDateTime createdAt;
+	private ZonedDateTime modifiedAt;
 
 	public ProductCass() {
 	}
 
-	public ProductCass(UUID productId, int item, String sClass, String inventory, DateTime createdAt,
-			DateTime modifiedAt) {
+	public ProductCass(UUID productId, int item, String sClass, String inventory, ZonedDateTime createdAt,
+			ZonedDateTime modifiedAt) {
 		this.productId = productId;
 		this.item = item;
 		this.sClass = sClass;
@@ -82,22 +81,20 @@ public class ProductCass implements Serializable {
 	}
 
 	@Column("created_at")
-	@Temporal(TemporalType.TIMESTAMP)
-	public DateTime getCreatedAt() {
+	public ZonedDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(DateTime createdAt) {
+	public void setCreatedAt(ZonedDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	@Column("modified_at")
-	@Temporal(TemporalType.TIMESTAMP)
-	public DateTime getModifiedAt() {
+	public ZonedDateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
-	public void setModifiedAt(DateTime modifiedAt) {
+	public void setModifiedAt(ZonedDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
 

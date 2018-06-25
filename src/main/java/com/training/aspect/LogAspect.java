@@ -15,7 +15,7 @@ import com.training.utils.LogUtil;
 @Component
 public class LogAspect {
 
-	@Pointcut("within(com.training.controller.*) || within(com.training.service.*)")
+	@Pointcut("within(com.training.controller..*) || within(com.training.service..*)")
 	public void doPointCut() {
 	}
 

@@ -28,6 +28,8 @@ public class TimeServiceImpl extends BaseService implements TimeService {
 
 	@Override
 	public Time addTime(Time time) {
+		time.setCreatedAt(DateTimeUtil.getCurrent());
+		time.setModifiedAt(DateTimeUtil.getCurrent());
 		return jpaRepository.save(time);
 	}
 

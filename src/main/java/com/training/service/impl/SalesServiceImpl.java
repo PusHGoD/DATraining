@@ -28,6 +28,8 @@ public class SalesServiceImpl extends BaseService implements SalesService {
 
 	@Override
 	public Sales addSale(Sales sales) {
+		sales.setCreatedAt(DateTimeUtil.getCurrent());
+		sales.setModifiedAt(DateTimeUtil.getCurrent());
 		return jpaRepository.save(sales);
 	}
 
