@@ -3,6 +3,9 @@ package com.training.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.training.exception.NoDataFoundException;
 import com.training.model.cassandra.SalesCass;
@@ -13,6 +16,7 @@ import com.training.service.BaseService;
 import com.training.service.SalesService;
 import com.training.utils.DateTimeUtil;
 
+@Service
 public class SalesServiceImpl extends BaseService implements SalesService {
 
 	@Autowired
@@ -22,11 +26,14 @@ public class SalesServiceImpl extends BaseService implements SalesService {
 	public SalesRepository jpaRepository;
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<SalesCass> getAllSales() {
 		return cassRepository.findAll();
 	}
 
 	@Override
+	@PreAuthorize("hasRole('ADMIN')")
+	@Transactional(readOnly = false)
 	public Sales addSale(Sales sales) {
 		sales.setCreatedAt(DateTimeUtil.getCurrent());
 		sales.setModifiedAt(DateTimeUtil.getCurrent());
@@ -34,6 +41,8 @@ public class SalesServiceImpl extends BaseService implements SalesService {
 	}
 
 	@Override
+	@PreAuthorize("hasRole('ADMIN')")
+	@Transactional(readOnly = false)
 	public Sales updateSale(Sales sales) {
 		if (!jpaRepository.findById(sales.getId()).isPresent()) {
 			throw new NoDataFoundException("Sales not found");

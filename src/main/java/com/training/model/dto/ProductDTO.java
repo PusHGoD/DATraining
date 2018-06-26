@@ -4,10 +4,11 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ProductDTO implements Serializable{
+public class ProductDTO implements Serializable {
 
 	private UUID productId;
 	private int item;
@@ -31,6 +32,7 @@ public class ProductDTO implements Serializable{
 	}
 
 	// @JsonIgnore
+	@NotNull
 	public UUID getProductId() {
 		return productId;
 	}
@@ -66,7 +68,8 @@ public class ProductDTO implements Serializable{
 	}
 
 	// @JsonIgnore
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
+	// @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
+	// "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
 	public ZonedDateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -77,7 +80,8 @@ public class ProductDTO implements Serializable{
 	}
 
 	// @JsonIgnore
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
+	// @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
+	// "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
 	public ZonedDateTime getModifiedAt() {
 		return modifiedAt;
 	}

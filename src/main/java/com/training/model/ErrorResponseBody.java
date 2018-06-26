@@ -5,21 +5,20 @@ import java.time.ZonedDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.training.utils.DateTimeUtil;
 
-public class HttpErrorMessage {
+public class ErrorResponseBody {
 
 	private ZonedDateTime timestamp;
 	private int status;
 	private String error;
 	private String message;
 
-	public HttpErrorMessage(int status, String error, String message) {
+	public ErrorResponseBody(int status, String error, String message) {
 		this.timestamp = DateTimeUtil.getCurrent();
 		this.message = message;
 		this.error = error;
 		this.status = status;
 	}
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
 	public ZonedDateTime getTimestamp() {
 		return timestamp;
 	}

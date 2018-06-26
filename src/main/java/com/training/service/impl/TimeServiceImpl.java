@@ -3,6 +3,9 @@ package com.training.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.training.exception.NoDataFoundException;
 import com.training.model.cassandra.TimeCass;
@@ -13,6 +16,7 @@ import com.training.service.BaseService;
 import com.training.service.TimeService;
 import com.training.utils.DateTimeUtil;
 
+@Service
 public class TimeServiceImpl extends BaseService implements TimeService {
 
 	@Autowired
@@ -22,11 +26,14 @@ public class TimeServiceImpl extends BaseService implements TimeService {
 	public TimeRepository jpaRepository;
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<TimeCass> getAllTimes() {
 		return cassRepository.findAll();
 	}
 
 	@Override
+	@PreAuthorize("hasRole('ADMIN')")
+	@Transactional(readOnly = true)
 	public Time addTime(Time time) {
 		time.setCreatedAt(DateTimeUtil.getCurrent());
 		time.setModifiedAt(DateTimeUtil.getCurrent());
@@ -34,6 +41,8 @@ public class TimeServiceImpl extends BaseService implements TimeService {
 	}
 
 	@Override
+	@PreAuthorize("hasRole('ADMIN')")
+	@Transactional(readOnly = false)
 	public Time updateTime(Time time) {
 		if (!jpaRepository.findById(time.getTimeId()).isPresent()) {
 			throw new NoDataFoundException("Time ID '" + time.getTimeId() + "' not found in DB");

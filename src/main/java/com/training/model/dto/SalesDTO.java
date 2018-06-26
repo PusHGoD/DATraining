@@ -2,8 +2,6 @@ package com.training.model.dto;
 
 import java.time.ZonedDateTime;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SalesDTO {
@@ -59,8 +57,8 @@ public class SalesDTO {
 		this.dollars = dollars;
 	}
 
-	@JsonIgnore
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
+//	@JsonIgnore
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
 	public ZonedDateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -70,8 +68,9 @@ public class SalesDTO {
 		this.createdAt = createdAt;
 	}
 
-	@JsonIgnore
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
+	// @JsonIgnore
+	// @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
+	// "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
 	public ZonedDateTime getModifiedAt() {
 		return modifiedAt;
 	}

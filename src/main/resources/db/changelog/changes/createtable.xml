@@ -96,5 +96,41 @@
 			initiallyDeferred="true" referencedColumnNames="location_id"
 			referencedTableName="location" />
 	</changeSet>
-
+<!-- 	<changeSet id="3" author="pmhuan"> -->
+<!-- 		<createTable tableName="user"> -->
+<!-- 			<column name="user_id" type="uuid"> -->
+<!-- 				<constraints primaryKey="true" nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="username" type="varchar(30)"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="password" type="varchar(30)"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 		</createTable> -->
+<!-- 		<createTable tableName="role"> -->
+<!-- 			<column name="role_id" type="uuid"> -->
+<!-- 				<constraints primaryKey="true" nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="role_name" type="varchar(30)"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 		</createTable> -->
+<!-- 		<createTable tableName="user_role"> -->
+<!-- 			<column name="user_id" type="uuid"> -->
+<!-- 				<constraints primaryKey="true" nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="role_id" type="uuid"> -->
+<!-- 				<constraints primaryKey="true" nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 		</createTable> -->
+<!-- 		<addForeignKeyConstraint baseColumnNames="user_id" -->
+<!-- 			baseTableName="user_role" constraintName="fk_userRole_user" deferrable="true" -->
+<!-- 			initiallyDeferred="true" referencedColumnNames="user_id" -->
+<!-- 			referencedTableName="user" /> -->
+<!-- 		<addForeignKeyConstraint baseColumnNames="role_id" -->
+<!-- 			baseTableName="user_role" constraintName="fk_userRole_role" deferrable="true" -->
+<!-- 			initiallyDeferred="true" referencedColumnNames="role_id" -->
+<!-- 			referencedTableName="role" /> -->
+<!-- 	</changeSet> -->
 </databaseChangeLog>
