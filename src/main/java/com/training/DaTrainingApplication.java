@@ -24,4 +24,5 @@ public class DaTrainingApplication {
 		converters.add(new CassandraZonedDateTimeConverter());
 		return new CassandraCustomConversions(converters);
 	}
+
 }

@@ -1,6 +1,5 @@
 package com.training.model.dto;
 
-import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -8,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ProductDTO implements Serializable {
+public class ProductDTO {
 
 	private UUID productId;
 	private int item;
@@ -68,8 +67,6 @@ public class ProductDTO implements Serializable {
 	}
 
 	// @JsonIgnore
-	// @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
-	// "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
 	public ZonedDateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -80,8 +77,6 @@ public class ProductDTO implements Serializable {
 	}
 
 	// @JsonIgnore
-	// @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
-	// "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
 	public ZonedDateTime getModifiedAt() {
 		return modifiedAt;
 	}

@@ -8,6 +8,10 @@ public class LogUtil {
 		logger.info(msg);
 	}
 	
+	public static void warn(Logger logger, String msg) {
+		logger.warn(msg);
+	}
+	
 	public static void debug(Logger logger, String msg) {
 		logger.debug(msg);
 	}

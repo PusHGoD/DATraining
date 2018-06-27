@@ -2,7 +2,6 @@ package com.training.model;
 
 import java.time.ZonedDateTime;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.training.utils.DateTimeUtil;
 
 public class ErrorResponseBody {

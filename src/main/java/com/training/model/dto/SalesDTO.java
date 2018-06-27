@@ -16,7 +16,8 @@ public class SalesDTO {
 	public SalesDTO() {
 	}
 
-	public SalesDTO(int productId, int locationId, int timeId, int dollars, ZonedDateTime createdAt, ZonedDateTime modifiedAt) {
+	public SalesDTO(int productId, int locationId, int timeId, int dollars, ZonedDateTime createdAt,
+			ZonedDateTime modifiedAt) {
 		this.productId = productId;
 		this.locationId = locationId;
 		this.timeId = timeId;
@@ -57,8 +58,7 @@ public class SalesDTO {
 		this.dollars = dollars;
 	}
 
-//	@JsonIgnore
-//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
+	// @JsonIgnore
 	public ZonedDateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -69,8 +69,6 @@ public class SalesDTO {
 	}
 
 	// @JsonIgnore
-	// @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
-	// "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Bangkok")
 	public ZonedDateTime getModifiedAt() {
 		return modifiedAt;
 	}

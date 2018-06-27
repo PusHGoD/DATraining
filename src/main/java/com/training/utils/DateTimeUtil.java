@@ -4,6 +4,10 @@ import java.time.ZonedDateTime;
 
 public class DateTimeUtil {
 
+	public static final String DATE_FORMAT = "yyyy-MM-dd";
+	public static final String DATE_TIME_WITH_ZONE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS O";
+	public static final String DATE_TIME_WITHOUT_ZONE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+
 	public static ZonedDateTime getCurrent() {
 		return ZonedDateTime.now();
 	}
