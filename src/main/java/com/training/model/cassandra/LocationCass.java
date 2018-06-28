@@ -14,6 +14,11 @@ import com.datastax.driver.core.DataType.Name;
 
 @Table("location")
 public class LocationCass implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5842680488047414610L;
+	
 	private UUID locationId;
 	private String country;
 	private String city;

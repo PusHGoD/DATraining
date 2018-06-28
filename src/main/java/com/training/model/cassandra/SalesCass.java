@@ -17,6 +17,11 @@ import com.training.model.jpa.Time;
 @Table("sales")
 public class SalesCass implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5427523305381011973L;
+	
 	private Product product;
 	private Location location;
 	private Time time;

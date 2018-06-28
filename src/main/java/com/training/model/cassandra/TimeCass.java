@@ -15,6 +15,11 @@ import com.datastax.driver.core.DataType.Name;
 @Table("time")
 public class TimeCass implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2976666423596348396L;
+
 	private UUID timeId;
 	private int month;
 	private int quarter;

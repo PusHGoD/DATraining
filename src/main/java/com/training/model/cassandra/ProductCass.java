@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
@@ -21,8 +18,8 @@ public class ProductCass implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = -5543117443690991909L;
+	
 	private UUID productId;
 	private int item;
 	private String sClass;
