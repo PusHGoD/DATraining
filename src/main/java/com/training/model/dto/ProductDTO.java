@@ -5,8 +5,11 @@ import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.data.elasticsearch.annotations.Document;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Document(indexName = "product", type = "post", shards = 1, replicas = 0)
 public class ProductDTO {
 
 	private UUID productId;
