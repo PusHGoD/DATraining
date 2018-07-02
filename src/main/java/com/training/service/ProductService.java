@@ -18,7 +18,10 @@ public interface ProductService {
 
 	public Product updateProduct(Product product);
 
+	public void deleteProductById(UUID id);
+	
 	public List<Product> getAllProductsFromJpa();
 
 	public Product getProductByIdFromJpa(UUID id);
+	
 }

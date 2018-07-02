@@ -85,4 +85,10 @@ public class ProductServiceImpl extends BaseService implements ProductService {
 		return product.get();
 	}
 
+	@Override
+	public void deleteProductById(UUID id) {
+		// TODO Auto-generated method stub
+		jpaRepository.deleteById(id);
+	}
+
 }
