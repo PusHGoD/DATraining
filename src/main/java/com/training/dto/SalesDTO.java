@@ -1,4 +1,4 @@
-package com.training.model.dto;
+package com.training.dto;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;

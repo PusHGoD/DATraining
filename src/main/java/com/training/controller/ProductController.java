@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.training.dto.ProductDTO;
 import com.training.exception.BadRequestException;
 import com.training.exception.NoDataFoundException;
 import com.training.model.DBType;
 import com.training.model.cassandra.ProductCass;
-import com.training.model.dto.ProductDTO;
 import com.training.model.jpa.Product;
 import com.training.service.ProductService;
 

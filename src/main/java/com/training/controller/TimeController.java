@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.training.dto.TimeDTO;
 import com.training.exception.BadRequestException;
 import com.training.exception.NoDataFoundException;
 import com.training.model.DBType;
 import com.training.model.cassandra.TimeCass;
-import com.training.model.dto.TimeDTO;
 import com.training.model.jpa.Time;
 import com.training.service.TimeService;
 

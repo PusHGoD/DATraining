@@ -18,10 +18,10 @@ import com.training.service.impl.ProductServiceImpl;
 public class ProductServiceUnitTest {
 
 	@InjectMocks
-	ProductServiceImpl service;
+	private ProductServiceImpl service;
 
 	@Mock
-	ProductCassRepository repository;
+	private ProductCassRepository repository;
 
 	@Before
 	public void setupMock() {
