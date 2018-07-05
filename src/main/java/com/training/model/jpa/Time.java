@@ -26,6 +26,18 @@ public class Time implements Serializable {
 	private ZonedDateTime createdAt;
 	private ZonedDateTime modifiedAt;
 
+	public Time() {
+	}
+
+	public Time(UUID timeId, int month, int quarter, int year, ZonedDateTime createdAt, ZonedDateTime modifiedAt) {
+		this.timeId = timeId;
+		this.month = month;
+		this.quarter = quarter;
+		this.year = year;
+		this.createdAt = createdAt;
+		this.modifiedAt = modifiedAt;
+	}
+
 	@Id
 	@GeneratedValue
 	@Column(name = "time_id", unique = true, nullable = false)

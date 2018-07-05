@@ -25,6 +25,18 @@ public class LocationCass implements Serializable {
 	private ZonedDateTime createdAt;
 	private ZonedDateTime modifiedAt;
 
+	public LocationCass() {
+	}
+
+	public LocationCass(UUID locationId, String country, String city, ZonedDateTime createdAt,
+			ZonedDateTime modifiedAt) {
+		this.locationId = locationId;
+		this.country = country;
+		this.city = city;
+		this.createdAt = createdAt;
+		this.modifiedAt = modifiedAt;
+	}
+
 	@PrimaryKeyColumn(name = "location_id", type = PrimaryKeyType.PARTITIONED, ordinal = 1)
 	@CassandraType(type = Name.UUID)
 	public UUID getLocationId() {

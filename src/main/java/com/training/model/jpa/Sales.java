@@ -30,6 +30,20 @@ public class Sales implements Serializable {
 	private ZonedDateTime createdAt;
 	private ZonedDateTime modifiedAt;
 
+	public Sales() {
+	}
+
+	public Sales(SalesId id, Product product, Location location, Time time, int dollars, ZonedDateTime createdAt,
+			ZonedDateTime modifiedAt) {
+		this.id = id;
+		this.product = product;
+		this.location = location;
+		this.time = time;
+		this.dollars = dollars;
+		this.createdAt = createdAt;
+		this.modifiedAt = modifiedAt;
+	}
+
 	@EmbeddedId
 
 	@AttributeOverrides({

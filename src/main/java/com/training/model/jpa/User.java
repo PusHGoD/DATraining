@@ -22,6 +22,16 @@ public class User {
 	private String password;
 	private Set<Role> roles;
 
+	public User() {
+	}
+
+	public User(UUID userId, String username, String password, Set<Role> roles) {
+		this.userId = userId;
+		this.username = username;
+		this.password = password;
+		this.roles = roles;
+	}
+
 	@Id
 	@GeneratedValue
 	@Column(name = "user_id", unique = true, nullable = false)

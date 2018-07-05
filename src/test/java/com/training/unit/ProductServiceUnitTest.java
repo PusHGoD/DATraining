@@ -1,23 +1,29 @@
 package com.training.unit;
 
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.training.exception.NoDataFoundException;
 import com.training.model.cassandra.ProductCass;
+import com.training.model.jpa.Product;
 import com.training.repository.ProductCassRepository;
+import com.training.repository.ProductRepository;
 import com.training.service.impl.ProductServiceImpl;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ProductServiceUnitTest {
 
 	@InjectMocks
@@ -26,27 +32,26 @@ public class ProductServiceUnitTest {
 	@Mock
 	private ProductCassRepository repository;
 
-	@Before
-	public void setupMock() {
-		MockitoAnnotations.initMocks(this);
-	}
+	@Mock
+	private ProductRepository jpaRepository;
 
 	UUID testUuid = UUID.fromString("b3c38102-7057-11e8-8754-c3e87a3d914c");
 	UUID wrongTestUuid = UUID.fromString("c381032b-7057-11e8-8754-c3e87a3ddddc");
+	UUID testUuid2 = UUID.fromString("10b7f32a-fd4d-432b-8b53-d776db75b751");
 
 	@Test
-	public void testGetAllProducts_thenOK() {
+	public void testGetAllProducts() {
 		ProductCass product1 = new ProductCass();
 		product1.setProductId(testUuid);
 		ProductCass product2 = new ProductCass();
-		product2.setProductId(wrongTestUuid);
+		product2.setProductId(testUuid2);
 		List<ProductCass> list = new ArrayList<ProductCass>();
 		when(repository.findAll()).thenReturn(list);
 		assertEquals(service.getAllProducts(), list);
 	}
 
 	@Test
-	public void testGetProductById_thenOK() {
+	public void testGetProductById() {
 		ProductCass product = new ProductCass();
 		product.setProductId(testUuid);
 		when(repository.findOneByProductId(testUuid)).thenReturn(product);
@@ -54,19 +59,41 @@ public class ProductServiceUnitTest {
 	}
 
 	@Test(expected = NoDataFoundException.class)
-	public void testGetProductByNonexistentId_thenFail() {
+	public void testGetProductByNonexistentId() {
 		ProductCass product = new ProductCass();
 		product.setProductId(testUuid);
-		when(repository.findOneByProductId(testUuid)).thenReturn(product);
-		service.getProductById(wrongTestUuid);
+		assertNotEquals(service.getProductById(wrongTestUuid), product);
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void testGetProductByNullId_thenThrow() {
+	public void testGetProductByNullId() {
 		UUID testUuid = null;
 		ProductCass product = new ProductCass();
 		product.setProductId(testUuid);
 		when(repository.findOneByProductId(testUuid)).thenThrow(NullPointerException.class);
 		service.getProductById(testUuid);
 	}
+
+	@Test
+	public void testAddProductCorrectly() {
+		Product product = new Product(testUuid2, 15, "Test1", "InventoryTest1", null, null);
+		when(jpaRepository.save(product)).thenReturn(product);
+		assertEquals(service.addProduct(product), product);
+	}
+
+	@Test
+	public void testAddProductIncorrectly() {
+		Product product = new Product();
+		product.setProductId(testUuid2);
+		when(jpaRepository.save(product)).thenReturn(null);
+		assertNull(service.addProduct(product));
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void testAddNullProduct() {
+		Product product = null;
+		when(jpaRepository.save(product)).thenThrow(NullPointerException.class);
+		service.addProduct(product);
+	}
+
 }

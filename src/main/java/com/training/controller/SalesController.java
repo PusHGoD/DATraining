@@ -49,26 +49,18 @@ public class SalesController {
 	}
 
 	public SalesDTO convertToDTO(Object obj, DBType type) {
-		SalesDTO dto = new SalesDTO();
+		SalesDTO dto = null;
 		if (obj == null) {
 			throw new NoDataFoundException("Not found sales");
 		}
 		if (type == DBType.JPA) {
 			Sales sales = (Sales) obj;
-			dto.setProductId(sales.getId().getProductId());
-			dto.setTimeId(sales.getId().getTimeId());
-			dto.setLocationId(sales.getId().getLocationId());
-			dto.setDollars(sales.getDollars());
-			dto.setCreatedAt(sales.getCreatedAt());
-			dto.setModifiedAt(sales.getModifiedAt());
+			dto = new SalesDTO(sales.getId().getProductId(), sales.getId().getLocationId(), sales.getId().getTimeId(),
+					sales.getDollars(), sales.getCreatedAt(), sales.getModifiedAt());
 		} else if (type == DBType.CASSANDRA) {
 			SalesCass sales = (SalesCass) obj;
-			dto.setProductId(sales.getProductId());
-			dto.setTimeId(sales.getTimeId());
-			dto.setLocationId(sales.getLocationId());
-			dto.setDollars(sales.getDollars());
-			dto.setCreatedAt(sales.getCreatedAt());
-			dto.setModifiedAt(sales.getModifiedAt());
+			dto = new SalesDTO(sales.getProductId(), sales.getLocationId(), sales.getTimeId(), sales.getDollars(),
+					sales.getCreatedAt(), sales.getModifiedAt());
 		} else {
 			throw new BadRequestException("No type");
 		}

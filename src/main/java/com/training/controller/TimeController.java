@@ -48,26 +48,18 @@ public class TimeController {
 	}
 
 	public TimeDTO convertToDTO(Object obj, DBType type) {
-		TimeDTO dto = new TimeDTO();
+		TimeDTO dto = null;
 		if (obj == null) {
 			throw new NoDataFoundException("Not found time");
 		}
 		if (type == DBType.JPA) {
 			Time time = (Time) obj;
-			dto.setTimeId(time.getTimeId());
-			dto.setMonth(time.getMonth());
-			dto.setQuarter(time.getQuarter());
-			dto.setYear(time.getYear());
-			dto.setCreatedAt(time.getCreatedAt());
-			dto.setModifiedAt(time.getModifiedAt());
+			dto = new TimeDTO(time.getTimeId(), time.getMonth(), time.getQuarter(), time.getYear(), time.getCreatedAt(),
+					time.getModifiedAt());
 		} else if (type == DBType.CASSANDRA) {
 			TimeCass time = (TimeCass) obj;
-			dto.setTimeId(time.getTimeId());
-			dto.setMonth(time.getMonth());
-			dto.setQuarter(time.getQuarter());
-			dto.setYear(time.getYear());
-			dto.setCreatedAt(time.getCreatedAt());
-			dto.setModifiedAt(time.getModifiedAt());
+			dto = new TimeDTO(time.getTimeId(), time.getMonth(), time.getQuarter(), time.getYear(), time.getCreatedAt(),
+					time.getModifiedAt());
 		} else {
 			throw new BadRequestException("No type");
 		}
@@ -78,13 +70,8 @@ public class TimeController {
 		if (dto == null) {
 			throw new BadRequestException("Parameters not valid");
 		}
-		Time time = new Time();
-		time.setTimeId(dto.getTimeId());
-		time.setMonth(dto.getMonth());
-		time.setQuarter(dto.getQuarter());
-		time.setYear(dto.getYear());
-		time.setCreatedAt(dto.getCreatedAt());
-		time.setModifiedAt(dto.getModifiedAt());
+		Time time = new Time(dto.getTimeId(), dto.getMonth(), dto.getQuarter(), dto.getYear(), dto.getCreatedAt(),
+				dto.getModifiedAt());
 		return time;
 	}
 
@@ -92,13 +79,8 @@ public class TimeController {
 		if (dto == null) {
 			throw new BadRequestException("Parameters not valid");
 		}
-		TimeCass time = new TimeCass();
-		time.setTimeId(dto.getTimeId());
-		time.setMonth(dto.getMonth());
-		time.setQuarter(dto.getQuarter());
-		time.setYear(dto.getYear());
-		time.setCreatedAt(dto.getCreatedAt());
-		time.setModifiedAt(dto.getModifiedAt());
+		TimeCass time = new TimeCass(dto.getTimeId(), dto.getMonth(), dto.getQuarter(), dto.getYear(),
+				dto.getCreatedAt(), dto.getModifiedAt());
 		return time;
 	}
 }

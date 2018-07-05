@@ -25,6 +25,17 @@ public class Location implements Serializable {
 	private ZonedDateTime createdAt;
 	private ZonedDateTime modifiedAt;
 
+	public Location() {
+	}
+
+	public Location(UUID locationId, String country, String city, ZonedDateTime createdAt, ZonedDateTime modifiedAt) {
+		this.locationId = locationId;
+		this.country = country;
+		this.city = city;
+		this.createdAt = createdAt;
+		this.modifiedAt = modifiedAt;
+	}
+
 	@Id
 	@GeneratedValue
 	@Column(name = "location_id", unique = true, nullable = false)

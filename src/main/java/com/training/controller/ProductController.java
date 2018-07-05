@@ -96,26 +96,18 @@ public class ProductController {
 	}
 
 	public ProductDTO convertToDTO(Object obj, DBType type) {
-		ProductDTO dto = new ProductDTO();
+		ProductDTO dto = null;
 		if (obj == null) {
 			throw new NoDataFoundException("Not found product");
 		}
 		if (type == DBType.JPA) {
 			Product product = (Product) obj;
-			dto.setProductId(product.getProductId());
-			dto.setItem(product.getItem());
-			dto.setsClass(product.getsClass());
-			dto.setInventory(product.getInventory());
-			dto.setCreatedAt(product.getCreatedAt());
-			dto.setModifiedAt(product.getModifiedAt());
+			dto = new ProductDTO(product.getProductId(), product.getItem(), product.getsClass(), product.getInventory(),
+					product.getCreatedAt(), product.getModifiedAt());
 		} else if (type == DBType.CASSANDRA) {
 			ProductCass product = (ProductCass) obj;
-			dto.setProductId(product.getProductId());
-			dto.setItem(product.getItem());
-			dto.setsClass(product.getsClass());
-			dto.setInventory(product.getInventory());
-			dto.setCreatedAt(product.getCreatedAt());
-			dto.setModifiedAt(product.getModifiedAt());
+			dto = new ProductDTO(product.getProductId(), product.getItem(), product.getsClass(), product.getInventory(),
+					product.getCreatedAt(), product.getModifiedAt());
 		} else {
 			throw new BadRequestException("No type");
 		}
@@ -126,13 +118,8 @@ public class ProductController {
 		if (dto == null) {
 			throw new BadRequestException("Parameters not valid");
 		}
-		Product product = new Product();
-		product.setProductId(dto.getProductId());
-		product.setItem(dto.getItem());
-		product.setsClass(dto.getsClass());
-		product.setInventory(dto.getInventory());
-		product.setCreatedAt(dto.getCreatedAt());
-		product.setModifiedAt(dto.getModifiedAt());
+		Product product = new Product(dto.getProductId(), dto.getItem(), dto.getsClass(), dto.getInventory(),
+				dto.getCreatedAt(), dto.getModifiedAt());
 		return product;
 	}
 
@@ -140,13 +127,8 @@ public class ProductController {
 		if (dto == null) {
 			throw new BadRequestException("Parameters not valid");
 		}
-		ProductCass product = new ProductCass();
-		product.setProductId(dto.getProductId());
-		product.setItem(dto.getItem());
-		product.setsClass(dto.getsClass());
-		product.setInventory(dto.getInventory());
-		product.setCreatedAt(dto.getCreatedAt());
-		product.setModifiedAt(dto.getModifiedAt());
+		ProductCass product = new ProductCass(dto.getProductId(), dto.getItem(), dto.getsClass(), dto.getInventory(),
+				dto.getCreatedAt(), dto.getModifiedAt());
 		return product;
 	}
 }

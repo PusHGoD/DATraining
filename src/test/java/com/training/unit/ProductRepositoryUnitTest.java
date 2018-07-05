@@ -1,19 +1,13 @@
 package com.training.unit;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Optional;
-import java.util.UUID;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import com.training.model.jpa.Product;
 import com.training.repository.ProductRepository;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ProductRepositoryUnitTest {
 
 	@Autowired
@@ -27,5 +21,10 @@ public class ProductRepositoryUnitTest {
 //		repository.save(product);
 //		Optional<Product> result = repository.findById(testUuid);
 //		assertEquals(testUuid, result.get().getProductId());
+	}
+	
+	@Test
+	public void testGetAllProducts(){
+		
 	}
 }

@@ -27,6 +27,18 @@ public class TimeCass implements Serializable {
 	private ZonedDateTime createdAt;
 	private ZonedDateTime modifiedAt;
 
+	public TimeCass() {
+	}
+
+	public TimeCass(UUID timeId, int month, int quarter, int year, ZonedDateTime createdAt, ZonedDateTime modifiedAt) {
+		this.timeId = timeId;
+		this.month = month;
+		this.quarter = quarter;
+		this.year = year;
+		this.createdAt = createdAt;
+		this.modifiedAt = modifiedAt;
+	}
+
 	@PrimaryKeyColumn(name = "time_id", type = PrimaryKeyType.PARTITIONED, ordinal = 1)
 	@CassandraType(type = Name.UUID)
 	public UUID getTimeId() {

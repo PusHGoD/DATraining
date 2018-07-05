@@ -49,24 +49,18 @@ public class LocationController {
 	}
 
 	public LocationDTO convertToDTO(Object obj, DBType type) {
-		LocationDTO dto = new LocationDTO();
+		LocationDTO dto = null;
 		if (obj == null) {
 			throw new NoDataFoundException("Not found location");
 		}
 		if (type == DBType.JPA) {
 			Location location = (Location) obj;
-			dto.setLocationId(location.getLocationId());
-			dto.setCountry(location.getCountry());
-			dto.setCity(location.getCity());
-			dto.setCreatedAt(location.getCreatedAt());
-			dto.setModifiedAt(location.getModifiedAt());
+			dto = new LocationDTO(location.getLocationId(), location.getCountry(), location.getCity(),
+					location.getCreatedAt(), location.getModifiedAt());
 		} else if (type == DBType.CASSANDRA) {
 			LocationCass location = (LocationCass) obj;
-			dto.setLocationId(location.getLocationId());
-			dto.setCountry(location.getCountry());
-			dto.setCity(location.getCity());
-			dto.setCreatedAt(location.getCreatedAt());
-			dto.setModifiedAt(location.getModifiedAt());
+			dto = new LocationDTO(location.getLocationId(), location.getCountry(), location.getCity(),
+					location.getCreatedAt(), location.getModifiedAt());
 		} else {
 			throw new BadRequestException("No type");
 		}
@@ -77,12 +71,8 @@ public class LocationController {
 		if (dto == null) {
 			throw new BadRequestException("Parameters not valid");
 		}
-		Location location = new Location();
-		location.setLocationId(dto.getLocationId());
-		location.setCountry(dto.getCountry());
-		location.setCity(dto.getCity());
-		location.setCreatedAt(dto.getCreatedAt());
-		location.setModifiedAt(dto.getModifiedAt());
+		Location location = new Location(dto.getLocationId(), dto.getCountry(), dto.getCity(), dto.getCreatedAt(),
+				dto.getModifiedAt());
 		return location;
 	}
 
@@ -90,12 +80,8 @@ public class LocationController {
 		if (dto == null) {
 			throw new BadRequestException("Parameters not valid");
 		}
-		LocationCass location = new LocationCass();
-		location.setLocationId(dto.getLocationId());
-		location.setCountry(dto.getCountry());
-		location.setCity(dto.getCity());
-		location.setCreatedAt(dto.getCreatedAt());
-		location.setModifiedAt(dto.getModifiedAt());
+		LocationCass location = new LocationCass(dto.getLocationId(), dto.getCountry(), dto.getCity(),
+				dto.getCreatedAt(), dto.getModifiedAt());
 		return location;
 	}
 }

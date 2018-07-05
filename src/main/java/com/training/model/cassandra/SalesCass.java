@@ -27,6 +27,19 @@ public class SalesCass implements Serializable {
 	private ZonedDateTime createdAt;
 	private ZonedDateTime modifiedAt;
 
+	public SalesCass() {
+	}
+
+	public SalesCass(UUID productId, UUID locationId, UUID timeId, int dollars, ZonedDateTime createdAt,
+			ZonedDateTime modifiedAt) {
+		this.productId = productId;
+		this.locationId = locationId;
+		this.timeId = timeId;
+		this.dollars = dollars;
+		this.createdAt = createdAt;
+		this.modifiedAt = modifiedAt;
+	}
+
 	@PrimaryKeyColumn(name = "product_id", type = PrimaryKeyType.PARTITIONED, ordinal = 1)
 	@CassandraType(type = Name.UUID)
 	public UUID getProductId() {

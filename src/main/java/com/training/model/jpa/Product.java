@@ -26,6 +26,19 @@ public class Product implements Serializable {
 	private ZonedDateTime createdAt;
 	private ZonedDateTime modifiedAt;
 
+	public Product() {
+	}
+
+	public Product(UUID productId, int item, String sClass, String inventory, ZonedDateTime createdAt,
+			ZonedDateTime modifiedAt) {
+		this.productId = productId;
+		this.item = item;
+		this.sClass = sClass;
+		this.inventory = inventory;
+		this.createdAt = createdAt;
+		this.modifiedAt = modifiedAt;
+	}
+
 	@Id
 	@GeneratedValue
 	@Column(name = "product_id", unique = true, nullable = false)

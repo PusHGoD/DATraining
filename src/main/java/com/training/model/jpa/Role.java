@@ -19,6 +19,15 @@ public class Role {
 	private String roleName;
 	private Set<User> users;
 
+	public Role() {
+	}
+
+	public Role(UUID roleId, String roleName, Set<User> users) {
+		this.roleId = roleId;
+		this.roleName = roleName;
+		this.users = users;
+	}
+
 	@Id
 	@GeneratedValue
 	@Column(name = "role_id", unique = true, nullable = false)
