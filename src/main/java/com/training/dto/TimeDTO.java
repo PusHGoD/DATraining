@@ -3,7 +3,6 @@ package com.training.dto;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TimeDTO {
@@ -27,7 +26,7 @@ public class TimeDTO {
 		this.modifiedAt = modifiedAt;
 	}
 
-	@JsonIgnore
+//	@JsonIgnore
 	public UUID getTimeId() {
 		return timeId;
 	}
