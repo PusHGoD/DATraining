@@ -1,9 +1,10 @@
 package com.training.unit;
 
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -46,6 +47,8 @@ public class ProductServiceUnitTest {
 		ProductCass product2 = new ProductCass();
 		product2.setProductId(testUuid2);
 		List<ProductCass> list = new ArrayList<ProductCass>();
+		list.add(product1);
+		list.add(product2);
 		when(repository.findAll()).thenReturn(list);
 		assertEquals(service.getAllProducts(), list);
 	}
@@ -87,12 +90,12 @@ public class ProductServiceUnitTest {
 		product.setProductId(testUuid2);
 		when(jpaRepository.save(product)).thenReturn(null);
 		assertNull(service.addProduct(product));
+		verify(jpaRepository, times(1)).save(product);
 	}
 
 	@Test(expected = NullPointerException.class)
 	public void testAddNullProduct() {
 		Product product = null;
-		when(jpaRepository.save(product)).thenThrow(NullPointerException.class);
 		service.addProduct(product);
 	}
 
