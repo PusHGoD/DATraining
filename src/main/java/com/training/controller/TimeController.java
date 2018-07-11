@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,13 +41,19 @@ public class TimeController {
 	}
 
 	@PostMapping(value = "/add", headers = "Accept=application/json")
-	public TimeDTO addLocation(@RequestBody TimeDTO time) {
-		return convertToDTO(service.addTime(convertToJPAEntity(time)), DBType.JPA);
+	public ResponseEntity<TimeDTO> addLocation(@RequestBody TimeDTO time) {
+		TimeDTO result = convertToDTO(service.addTime(convertToJPAEntity(time)), DBType.JPA);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Location", "http://localhost:8080/time?id=" + result.getTimeId());
+		return new ResponseEntity<TimeDTO>(result, headers, HttpStatus.CREATED);
 	}
 
 	@PutMapping(value = "/update", headers = "Accept=application/json")
-	public TimeDTO updateLocation(@RequestBody TimeDTO time) {
-		return convertToDTO(service.updateTime(convertToJPAEntity(time)), DBType.JPA);
+	public ResponseEntity<TimeDTO> updateLocation(@RequestBody TimeDTO time) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Location", "http://localhost:8080/time?id=" + time.getTimeId());
+		return new ResponseEntity<TimeDTO>(convertToDTO(service.updateTime(convertToJPAEntity(time)), DBType.JPA),
+				headers, HttpStatus.OK);
 	}
 
 	public TimeDTO convertToDTO(Object obj, DBType type) {

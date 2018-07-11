@@ -36,7 +36,7 @@ public class ProductServiceUnitTest {
 	@Mock
 	private ProductRepository jpaRepository;
 
-	UUID testUuid = UUID.fromString("b3c38102-7057-11e8-8754-c3e87a3d914c");
+	UUID testUuid = UUID.fromString("b3c38100-7057-11e8-8754-c3e87a3d914c");
 	UUID wrongTestUuid = UUID.fromString("c381032b-7057-11e8-8754-c3e87a3ddddc");
 	UUID testUuid2 = UUID.fromString("10b7f32a-fd4d-432b-8b53-d776db75b751");
 

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -70,23 +71,27 @@ public class ProductController {
 	}
 
 	@GetMapping(value = "/jpa", params = "id")
-	public ProductDTO getProductByIdFromJpa(@RequestParam("id") UUID id, HttpServletResponse response) {
+	public ResponseEntity<ProductDTO> getProductByIdFromJpa(@RequestParam("id") UUID id) {
 		Product result = service.getProductByIdFromJpa(id);
-		response.addHeader("Location", "http://localhost:8080/product?id=" + id);
-		return convertToDTO(result, DBType.JPA);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Location", "http://localhost:8080/product?id=" + id);
+		return new ResponseEntity<ProductDTO>(convertToDTO(result, DBType.JPA), headers, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/add", headers = "Accept=application/json")
-	public ProductDTO addProduct(@RequestBody ProductDTO product, HttpServletResponse response) {
+	public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductDTO product) {
 		Product result = service.addProduct(convertToJPAEntity(product));
-		response.addHeader("Location", "http://localhost:8080/product?id=" + result.getProductId());
-		return convertToDTO(result, DBType.JPA);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Location", "http://localhost:8080/product?id=" + result.getProductId());
+		return new ResponseEntity<ProductDTO>(convertToDTO(result, DBType.JPA), headers, HttpStatus.CREATED);
 	}
 
 	@PutMapping(value = "/update", headers = "Accept=application/json")
-	public ProductDTO updateProduct(@RequestBody ProductDTO product, HttpServletResponse response) {
-		response.addHeader("Location", "http://localhost:8080/product?id=" + product.getProductId());
-		return convertToDTO(service.updateProduct(convertToJPAEntity(product)), DBType.JPA);
+	public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO product) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Location", "http://localhost:8080/product?id=" + product.getProductId());
+		return new ResponseEntity<ProductDTO>(
+				convertToDTO(service.updateProduct(convertToJPAEntity(product)), DBType.JPA), headers, HttpStatus.OK);
 	}
 
 	@DeleteMapping(value = "/delete", headers = "Accept=application/json")

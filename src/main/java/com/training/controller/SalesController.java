@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -39,13 +42,19 @@ public class SalesController {
 	}
 
 	@PostMapping(value = "/add", headers = "Accept=application/json")
-	public SalesDTO addSales(@RequestBody SalesDTO sales) {
-		return convertToDTO(service.addSale(convertToJPAEntity(sales)), DBType.JPA);
+	public ResponseEntity<SalesDTO> addSales(@RequestBody SalesDTO sales) {
+		SalesDTO result = convertToDTO(service.addSale(convertToJPAEntity(sales)), DBType.JPA);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Location", "http://localhost:8080/sales?product-id=" + sales.getProductId());
+		return new ResponseEntity<SalesDTO>(result, headers, HttpStatus.CREATED);
 	}
 
 	@PutMapping(value = "/update", headers = "Accept=application/json")
-	public SalesDTO updateSales(@RequestBody SalesDTO sales) {
-		return convertToDTO(service.updateSale(convertToJPAEntity(sales)), DBType.JPA);
+	public ResponseEntity<SalesDTO> updateSales(@RequestBody SalesDTO sales) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Location", "http://localhost:8080/sales?product-id=" + sales.getProductId());
+		return new ResponseEntity<SalesDTO>(convertToDTO(service.updateSale(convertToJPAEntity(sales)), DBType.JPA),
+				headers, HttpStatus.OK);
 	}
 
 	public SalesDTO convertToDTO(Object obj, DBType type) {

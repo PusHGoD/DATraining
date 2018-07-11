@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -39,13 +42,19 @@ public class LocationController {
 	}
 
 	@PostMapping(value = "/add", headers = "Accept=application/json")
-	public LocationDTO addLocation(@RequestBody LocationDTO location) {
-		return convertToDTO(service.addLocation(convertToJPAEntity(location)), DBType.JPA);
+	public ResponseEntity<LocationDTO> addLocation(@RequestBody LocationDTO location) {
+		LocationDTO result = convertToDTO(service.addLocation(convertToJPAEntity(location)), DBType.JPA);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Location", "http://localhost:8080/location?id=" + result.getLocationId());
+		return new ResponseEntity<LocationDTO>(result, headers, HttpStatus.CREATED);
 	}
 
 	@PutMapping(value = "/update", headers = "Accept=application/json")
-	public LocationDTO updateLocation(@RequestBody LocationDTO location) {
-		return convertToDTO(service.updateLocation(convertToJPAEntity(location)), DBType.JPA);
+	public ResponseEntity<LocationDTO> updateLocation(@RequestBody LocationDTO location) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Location", "http://localhost:8080/location?id=" + location.getLocationId());
+		return new ResponseEntity<LocationDTO>(
+				convertToDTO(service.updateLocation(convertToJPAEntity(location)), DBType.JPA), headers, HttpStatus.OK);
 	}
 
 	public LocationDTO convertToDTO(Object obj, DBType type) {

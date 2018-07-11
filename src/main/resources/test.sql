@@ -1,1 +1,1 @@
-INSERT INTO "public".product (product_id) VALUES ('b3c38102705711e88754c3e87a3d914c');
+INSERT INTO "public".product (product_id) VALUES ('b3c38100705711e88754c3e87a3d914c');

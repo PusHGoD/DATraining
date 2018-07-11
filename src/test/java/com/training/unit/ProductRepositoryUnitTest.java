@@ -2,7 +2,10 @@ package com.training.unit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -33,13 +36,9 @@ public class ProductRepositoryUnitTest {
 	@Autowired
 	private ProductRepository repository;
 
-	UUID testUuid = UUID.fromString("b3c38102-7057-11e8-8754-c3e87a3d914c");
-
-	// @BeforeClass
-	// public static void initializeData() {
-	// UUID testUuid = UUID.fromString("b3c38102-7057-11e8-8754-c3e87a3d914c");
-	//
-	// }
+	UUID testUuid = UUID.fromString("b3c38100-7057-11e8-8754-c3e87a3d914c");
+	UUID testUuid2 = UUID.fromString("10b7f32a-fd4d-432b-8b53-d776db75b751");
+	UUID wrongTestUuid = UUID.fromString("c381032b-7057-11e8-8754-c3e87a3ddddc");
 
 	@Test
 	@Transactional
@@ -50,8 +49,24 @@ public class ProductRepositoryUnitTest {
 
 	@Test
 	@Transactional
+	public void testGetProductByNonExistentId() {
+		Optional<Product> result = repository.findById(wrongTestUuid);
+		assertFalse(result.isPresent());
+	}
+
+	@Test
+	@Transactional
 	public void testGetAllProducts() {
 		List<Product> result = repository.findAll();
 		assertFalse(result.isEmpty());
+		assertTrue(result.size() == 1);
+	}
+
+	@Test
+	@Transactional
+	public void testAddProduct() {
+		Product result = repository
+				.saveAndFlush(new Product(testUuid2, 14, "TEST", "test", ZonedDateTime.now(), ZonedDateTime.now()));
+		assertNotNull(result);
 	}
 }
