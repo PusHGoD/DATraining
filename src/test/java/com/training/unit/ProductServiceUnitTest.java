@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.Test;
@@ -37,8 +38,8 @@ public class ProductServiceUnitTest {
 	private ProductRepository jpaRepository;
 
 	UUID testUuid = UUID.fromString("b3c38100-7057-11e8-8754-c3e87a3d914c");
-	UUID wrongTestUuid = UUID.fromString("c381032b-7057-11e8-8754-c3e87a3ddddc");
 	UUID testUuid2 = UUID.fromString("10b7f32a-fd4d-432b-8b53-d776db75b751");
+	UUID wrongTestUuid = UUID.fromString("c381032b-7057-11e8-8754-c3e87a3ddddc");
 
 	@Test
 	public void testGetAllProducts() {
@@ -50,7 +51,7 @@ public class ProductServiceUnitTest {
 		list.add(product1);
 		list.add(product2);
 		when(repository.findAll()).thenReturn(list);
-		assertEquals(service.getAllProducts(), list);
+		assertEquals(list, service.getAllProducts());
 	}
 
 	@Test
@@ -58,14 +59,14 @@ public class ProductServiceUnitTest {
 		ProductCass product = new ProductCass();
 		product.setProductId(testUuid);
 		when(repository.findOneByProductId(testUuid)).thenReturn(product);
-		assertEquals(service.getProductById(testUuid), product);
+		assertEquals(product, service.getProductById(testUuid));
 	}
 
 	@Test(expected = NoDataFoundException.class)
 	public void testGetProductByNonexistentId() {
 		ProductCass product = new ProductCass();
 		product.setProductId(testUuid);
-		assertNotEquals(service.getProductById(wrongTestUuid), product);
+		assertNotEquals(product, service.getProductById(wrongTestUuid));
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -81,7 +82,7 @@ public class ProductServiceUnitTest {
 	public void testAddProductCorrectly() {
 		Product product = new Product(testUuid2, 15, "Test1", "InventoryTest1", null, null);
 		when(jpaRepository.save(product)).thenReturn(product);
-		assertEquals(service.addProduct(product), product);
+		assertEquals(product, service.addProduct(product));
 	}
 
 	@Test
@@ -99,4 +100,11 @@ public class ProductServiceUnitTest {
 		service.addProduct(product);
 	}
 
+	@Test
+	public void testUpdateProduct() {
+		Product product = new Product(testUuid, 16, "Test2", "InventoryTest2", null, null);
+		when(jpaRepository.findById(testUuid)).thenReturn(Optional.of(product));
+		when(jpaRepository.save(product)).thenReturn(product);
+		assertEquals(product, service.updateProduct(product));
+	}
 }
