@@ -3,6 +3,7 @@ package com.training.service;
 import java.util.List;
 import java.util.UUID;
 
+import com.querydsl.core.types.Predicate;
 import com.training.model.cassandra.ProductCass;
 import com.training.model.jpa.Product;
 
@@ -24,4 +25,5 @@ public interface ProductService {
 
 	public Product getProductByIdFromJpa(UUID id);
 	
+	public List<Product> getProductByQueryDslFromJpa(Predicate predicate);
 }

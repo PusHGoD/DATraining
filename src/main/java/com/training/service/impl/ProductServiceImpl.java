@@ -1,5 +1,6 @@
 package com.training.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -9,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.querydsl.core.types.Predicate;
 import com.training.exception.NoDataFoundException;
 import com.training.model.cassandra.ProductCass;
 import com.training.model.jpa.Product;
@@ -86,9 +88,17 @@ public class ProductServiceImpl extends BaseService implements ProductService {
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public void deleteProductById(UUID id) {
-		// TODO Auto-generated method stub
 		jpaRepository.deleteById(id);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Product> getProductByQueryDslFromJpa(Predicate predicate) {
+		List<Product> list = new ArrayList<>();
+		jpaRepository.findAll(predicate).forEach(list::add);
+		return list;
 	}
 
 }

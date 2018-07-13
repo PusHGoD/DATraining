@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
@@ -66,7 +67,13 @@ public class ProductRepositoryUnitTest {
 	@Transactional
 	public void testAddProduct() {
 		Product result = repository
-				.saveAndFlush(new Product(testUuid2, 14, "TEST", "test", ZonedDateTime.now(), ZonedDateTime.now()));
+				.save(new Product(testUuid2, 14, "TEST", "test", ZonedDateTime.now(), ZonedDateTime.now()));
 		assertNotNull(result);
+	}
+
+	@Test(expected = InvalidDataAccessApiUsageException.class)
+	@Transactional
+	public void testAddNullProduct() {
+		repository.save(null);
 	}
 }

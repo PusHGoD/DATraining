@@ -2,6 +2,7 @@ package com.training.service;
 
 import java.util.List;
 
+import com.querydsl.core.types.Predicate;
 import com.training.model.cassandra.LocationCass;
 import com.training.model.jpa.Location;
 
@@ -13,4 +14,5 @@ public interface LocationService{
 
 	public Location updateLocation(Location location);
 
+	public List<Location> getLocationByQueryDslFromJpa(Predicate predicate);
 }

@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/", "/product/**").hasRole("USER")
+		http.csrf().disable().authorizeRequests().antMatchers("/", "/product/**", "/*/jpa/**").hasRole("USER")
 				.antMatchers("/location/**", "/time/**", "/sales/**").hasRole("ADMIN").and().httpBasic().and()
 				.exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler());
 	}

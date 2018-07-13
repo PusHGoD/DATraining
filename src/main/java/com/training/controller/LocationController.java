@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.querydsl.core.types.Predicate;
 import com.training.dto.LocationDTO;
 import com.training.exception.BadRequestException;
 import com.training.exception.NoDataFoundException;
@@ -55,6 +57,15 @@ public class LocationController {
 		headers.add("Location", "http://localhost:8080/location?id=" + location.getLocationId());
 		return new ResponseEntity<LocationDTO>(
 				convertToDTO(service.updateLocation(convertToJPAEntity(location)), DBType.JPA), headers, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/jpa/querydsl")
+	public ResponseEntity<List<LocationDTO>> getLocationByQueryDslFromJpa(
+			@QuerydslPredicate(root = Location.class) Predicate predicate) {
+		List<Location> list = service.getLocationByQueryDslFromJpa(predicate);
+		List<LocationDTO> dtoList = list.stream().map(product -> convertToDTO(product, DBType.JPA))
+				.collect(Collectors.toList());
+		return new ResponseEntity<List<LocationDTO>>(dtoList, HttpStatus.OK);
 	}
 
 	public LocationDTO convertToDTO(Object obj, DBType type) {

@@ -2,9 +2,6 @@ package com.training.unit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -83,15 +80,6 @@ public class ProductServiceUnitTest {
 		Product product = new Product(testUuid2, 15, "Test1", "InventoryTest1", null, null);
 		when(jpaRepository.save(product)).thenReturn(product);
 		assertEquals(product, service.addProduct(product));
-	}
-
-	@Test
-	public void testAddProductIncorrectly() {
-		Product product = new Product();
-		product.setProductId(testUuid2);
-		when(jpaRepository.save(product)).thenReturn(null);
-		assertNull(service.addProduct(product));
-		verify(jpaRepository, times(1)).save(product);
 	}
 
 	@Test(expected = NullPointerException.class)

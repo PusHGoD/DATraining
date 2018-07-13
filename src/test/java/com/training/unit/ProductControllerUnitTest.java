@@ -1,8 +1,6 @@
 package com.training.unit;
 
-import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -16,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.hamcrest.beans.HasPropertyWithValue;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,12 +26,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.training.controller.BaseControllerExceptionHandler;
 import com.training.controller.ProductController;
-import com.training.dto.ProductDTO;
-import com.training.exception.NoDataFoundException;
 import com.training.model.cassandra.ProductCass;
 import com.training.model.jpa.Product;
 import com.training.service.ProductService;
@@ -114,6 +107,15 @@ public class ProductControllerUnitTest {
 	}
 
 	@Test
+	public void testAddNullProduct() throws Exception {
+		Product product = null;
+		ObjectMapper mapper = new ObjectMapper();
+		String json = mapper.writeValueAsString(product);
+		mockMvc.perform(post("/product/add").contentType(MediaType.APPLICATION_JSON).content(json)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+	}
+
+	@Test
 	public void testUpdateProduct() throws Exception {
 		Product product = new Product();
 		product.setProductId(testUuid);
@@ -127,5 +129,21 @@ public class ProductControllerUnitTest {
 		}))).thenReturn(product);
 		mockMvc.perform(put("/product/update").contentType(MediaType.APPLICATION_JSON).content(json))
 				.andExpect(status().isOk()).andExpect(jsonPath("$.productId", is(testUuid.toString())));
+	}
+
+	@Test
+	public void testUpdateProductWithNonexistentId() throws Exception {
+		Product product = new Product();
+		product.setProductId(wrongTestUuid);
+		ObjectMapper mapper = new ObjectMapper();
+		String json = mapper.writeValueAsString(product);
+		when(service.updateProduct(ArgumentMatchers.argThat(new ArgumentMatcher<Product>() {
+			@Override
+			public boolean matches(Product arg0) {
+				return arg0.getProductId().equals(wrongTestUuid);
+			}
+		}))).thenReturn(null);
+		mockMvc.perform(put("/product/update").contentType(MediaType.APPLICATION_JSON).content(json))
+				.andExpect(status().isNotFound());
 	}
 }

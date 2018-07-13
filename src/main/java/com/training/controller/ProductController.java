@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.querydsl.core.types.Predicate;
 import com.training.dto.ProductDTO;
 import com.training.exception.BadRequestException;
 import com.training.exception.NoDataFoundException;
@@ -76,6 +78,15 @@ public class ProductController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Location", "http://localhost:8080/product?id=" + id);
 		return new ResponseEntity<ProductDTO>(convertToDTO(result, DBType.JPA), headers, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/jpa/querydsl")
+	public ResponseEntity<List<ProductDTO>> getProductByQueryDslFromJpa(
+			@QuerydslPredicate(root = Product.class) Predicate predicate) {
+		List<Product> list = service.getProductByQueryDslFromJpa(predicate);
+		List<ProductDTO> dtoList = list.stream().map(product -> convertToDTO(product, DBType.JPA))
+				.collect(Collectors.toList());
+		return new ResponseEntity<List<ProductDTO>>(dtoList, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/add", headers = "Accept=application/json")

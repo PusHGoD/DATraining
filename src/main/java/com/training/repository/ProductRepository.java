@@ -3,11 +3,12 @@ package com.training.repository;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 import com.training.model.jpa.Product;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, UUID> {
-	
+public interface ProductRepository extends JpaRepository<Product, UUID>, QuerydslPredicateExecutor<Product> {
+
 }
