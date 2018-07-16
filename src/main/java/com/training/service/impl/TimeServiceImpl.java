@@ -1,5 +1,6 @@
 package com.training.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.querydsl.core.types.Predicate;
 import com.training.exception.NoDataFoundException;
 import com.training.model.cassandra.TimeCass;
 import com.training.model.jpa.Time;
@@ -51,4 +53,11 @@ public class TimeServiceImpl extends BaseService implements TimeService {
 		return jpaRepository.save(time);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Time> getTimeByQueryDslFromJpa(Predicate predicate) {
+		List<Time> list = new ArrayList<>();
+		jpaRepository.findAll(predicate).forEach(list::add);
+		return list;
+	}
 }

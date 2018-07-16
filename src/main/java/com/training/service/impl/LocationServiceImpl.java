@@ -2,6 +2,7 @@ package com.training.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -51,6 +52,16 @@ public class LocationServiceImpl extends BaseService implements LocationService 
 		}
 		location.setModifiedAt(DateTimeUtil.getCurrent());
 		return jpaRepository.save(location);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Location getOneLocationByQueryDslFromJpa(Predicate predicate) {
+		Optional<Location> result = jpaRepository.findOne(predicate);
+		if (!result.isPresent()) {
+			throw new NoDataFoundException("Not found data in DB");
+		}
+		return result.get();
 	}
 
 	@Override

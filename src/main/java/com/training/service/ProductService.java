@@ -25,5 +25,7 @@ public interface ProductService {
 
 	public Product getProductByIdFromJpa(UUID id);
 	
+	public Product getOneProductByQueryDslFromJpa(Predicate predicate);
+	
 	public List<Product> getProductByQueryDslFromJpa(Predicate predicate);
 }

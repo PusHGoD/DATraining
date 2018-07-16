@@ -1,6 +1,7 @@
 package com.training.controller;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -15,15 +16,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.querydsl.core.types.Predicate;
 import com.training.dto.LocationDTO;
+import com.training.dto.ProductDTO;
 import com.training.exception.BadRequestException;
 import com.training.exception.NoDataFoundException;
 import com.training.model.DBType;
 import com.training.model.cassandra.LocationCass;
 import com.training.model.jpa.Location;
+import com.training.model.jpa.QLocation;
 import com.training.service.LocationService;
 
 @RestController
@@ -62,6 +66,36 @@ public class LocationController {
 	@GetMapping(value = "/jpa/querydsl")
 	public ResponseEntity<List<LocationDTO>> getLocationByQueryDslFromJpa(
 			@QuerydslPredicate(root = Location.class) Predicate predicate) {
+		List<Location> list = service.getLocationByQueryDslFromJpa(predicate);
+		List<LocationDTO> dtoList = list.stream().map(product -> convertToDTO(product, DBType.JPA))
+				.collect(Collectors.toList());
+		return new ResponseEntity<List<LocationDTO>>(dtoList, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/jpa", params = "id")
+	public ResponseEntity<LocationDTO> getLocationByIdFromJpa(@RequestParam("id") UUID id) {
+		QLocation qp = QLocation.location;
+		Predicate predicate = qp.locationId.eq(id);
+		Location result = service.getOneLocationByQueryDslFromJpa(predicate);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Location", "http://localhost:8080/location?id=" + result.getLocationId());
+		return new ResponseEntity<LocationDTO>(convertToDTO(result, DBType.JPA), headers, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/jpa", params = "country")
+	public ResponseEntity<List<LocationDTO>> getLocationByCountryFromJpa(@RequestParam("country") String country) {
+		QLocation qp = QLocation.location;
+		Predicate predicate = qp.country.eq(country);
+		List<Location> list = service.getLocationByQueryDslFromJpa(predicate);
+		List<LocationDTO> dtoList = list.stream().map(product -> convertToDTO(product, DBType.JPA))
+				.collect(Collectors.toList());
+		return new ResponseEntity<List<LocationDTO>>(dtoList, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/jpa", params = "city")
+	public ResponseEntity<List<LocationDTO>> getLocationByCityFromJpa(@RequestParam("city") String city) {
+		QLocation qp = QLocation.location;
+		Predicate predicate = qp.city.eq(city);
 		List<Location> list = service.getLocationByQueryDslFromJpa(predicate);
 		List<LocationDTO> dtoList = list.stream().map(product -> convertToDTO(product, DBType.JPA))
 				.collect(Collectors.toList());

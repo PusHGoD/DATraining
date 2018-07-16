@@ -95,4 +95,11 @@ public class ProductServiceUnitTest {
 		when(jpaRepository.save(product)).thenReturn(product);
 		assertEquals(product, service.updateProduct(product));
 	}
+
+	@Test(expected = NoDataFoundException.class)
+	public void testUpdateProductWithNonexistentId() {
+		Product product = new Product(wrongTestUuid, 16, "Test2", "InventoryTest2", null, null);
+		when(jpaRepository.findById(wrongTestUuid)).thenThrow(new NoDataFoundException(""));
+		assertEquals(product, service.updateProduct(product));
+	}
 }

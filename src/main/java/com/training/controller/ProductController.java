@@ -29,6 +29,7 @@ import com.training.exception.NoDataFoundException;
 import com.training.model.DBType;
 import com.training.model.cassandra.ProductCass;
 import com.training.model.jpa.Product;
+import com.training.model.jpa.QProduct;
 import com.training.service.ProductService;
 
 @RestController
@@ -74,12 +75,45 @@ public class ProductController {
 
 	@GetMapping(value = "/jpa", params = "id")
 	public ResponseEntity<ProductDTO> getProductByIdFromJpa(@RequestParam("id") UUID id) {
-		Product result = service.getProductByIdFromJpa(id);
+		QProduct qp = QProduct.product;
+		Predicate predicate = qp.productId.eq(id);
+		Product result = service.getOneProductByQueryDslFromJpa(predicate);
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Location", "http://localhost:8080/product?id=" + id);
+		headers.add("Location", "http://localhost:8080/product?id=" + result.getProductId());
 		return new ResponseEntity<ProductDTO>(convertToDTO(result, DBType.JPA), headers, HttpStatus.OK);
 	}
 
+	@GetMapping(value = "/jpa", params = "item")
+	public ResponseEntity<List<ProductDTO>> getProductByItemFromJpa(@RequestParam("item") int item) {
+		QProduct qp = QProduct.product;
+		Predicate predicate = qp.item.eq(item);
+		List<Product> list = service.getProductByQueryDslFromJpa(predicate);
+		List<ProductDTO> dtoList = list.stream().map(product -> convertToDTO(product, DBType.JPA))
+				.collect(Collectors.toList());
+		return new ResponseEntity<List<ProductDTO>>(dtoList, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/jpa", params = "class")
+	public ResponseEntity<List<ProductDTO>> getProductByClassFromJpa(@RequestParam("class") String strClass) {
+		QProduct qp = QProduct.product;
+		Predicate predicate = qp.sClass.eq(strClass);
+		List<Product> list = service.getProductByQueryDslFromJpa(predicate);
+		List<ProductDTO> dtoList = list.stream().map(product -> convertToDTO(product, DBType.JPA))
+				.collect(Collectors.toList());
+		return new ResponseEntity<List<ProductDTO>>(dtoList, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/jpa", params = "inventory")
+	public ResponseEntity<List<ProductDTO>> getProductByInventoryFromJpa(@RequestParam("inventory") String inventory) {
+		QProduct qp = QProduct.product;
+		Predicate predicate = qp.inventory.eq(inventory);
+		List<Product> list = service.getProductByQueryDslFromJpa(predicate);
+		List<ProductDTO> dtoList = list.stream().map(product -> convertToDTO(product, DBType.JPA))
+				.collect(Collectors.toList());
+		return new ResponseEntity<List<ProductDTO>>(dtoList, HttpStatus.OK);
+	}
+
+	/* QueryDSL draft function */
 	@GetMapping(value = "/jpa/querydsl")
 	public ResponseEntity<List<ProductDTO>> getProductByQueryDslFromJpa(
 			@QuerydslPredicate(root = Product.class) Predicate predicate) {

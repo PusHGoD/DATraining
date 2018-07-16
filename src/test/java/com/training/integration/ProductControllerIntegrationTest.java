@@ -69,6 +69,32 @@ public class ProductControllerIntegrationTest {
 
 	@Test
 	@Transactional
+	@WithMockUser(username = "dbadmin1", password = "password", roles = { "USER", "ADMIN" })
+	public void testAddProduct() throws Exception {
+		Product product = new Product();
+		product.setItem(22);
+		product.setsClass("test");
+		product.setInventory("test");
+		mockMvc.perform(post("/product/add").contentType(MediaType.APPLICATION_JSON_UTF8)
+				.content(mapper.writeValueAsString(product)).accept(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(status().isCreated()).andExpect(jsonPath("$.item", is(22)));
+	}
+
+	@Test
+	@Transactional
+	@WithMockUser(username = "dbuser1", password = "password", roles = { "USER" })
+	public void testAddProduct_accessDenied() throws Exception {
+		Product product = new Product();
+		product.setItem(22);
+		product.setsClass("test");
+		product.setInventory("test");
+		mockMvc.perform(post("/product/add").contentType(MediaType.APPLICATION_JSON_UTF8)
+				.content(mapper.writeValueAsString(product)).accept(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(status().isForbidden()).andExpect(jsonPath("$.message", is("Access is denied")));
+	}
+
+	@Test
+	@Transactional
 	public void testGetAllProducts() throws Exception {
 		mockMvc.perform(get("/product").with(httpBasic("user", "password"))).andExpect(status().isOk())
 				.andExpect(jsonPath("$.length()", is(2)))
@@ -107,20 +133,35 @@ public class ProductControllerIntegrationTest {
 
 	@Test
 	@Transactional
-	@WithMockUser(username = "dbuser1", password = "password", roles = { "USER", "ADMIN" })
-	public void testAddProduct() throws Exception {
-		Product product = new Product();
-		product.setItem(22);
-		product.setsClass("test");
-		product.setInventory("test");
-		mockMvc.perform(post("/product/add").contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(mapper.writeValueAsString(product)).accept(MediaType.APPLICATION_JSON_UTF8))
-				.andExpect(status().isCreated()).andExpect(jsonPath("$.item", is(22)));
+	public void testGetProductByQueryDsl_id() throws Exception {
+		mockMvc.perform(get("/product/jpa").param("id", testUuid.toString()).with(httpBasic("user", "password")))
+				.andExpect(status().isOk());
 	}
 
 	@Test
 	@Transactional
-	@WithMockUser(username = "dbuser1", password = "password", roles = { "USER", "ADMIN" })
+	public void testGetProductByQueryDsl_item() throws Exception {
+		mockMvc.perform(get("/product/jpa").param("item", "12").with(httpBasic("user", "password")))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	@Transactional
+	public void testGetProductByQueryDsl_class() throws Exception {
+		mockMvc.perform(get("/product/jpa").param("sClass", "Drink").with(httpBasic("user", "password")))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	@Transactional
+	public void testGetProductByQueryDsl_inventory() throws Exception {
+		mockMvc.perform(get("/product/jpa").param("inventory", "In").with(httpBasic("user", "password")))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	@Transactional
+	@WithMockUser(username = "dbadmin1", password = "password", roles = { "USER", "ADMIN" })
 	public void testUpdateProduct() throws Exception {
 		Product product = new Product();
 		product.setProductId(testUuid);
@@ -130,5 +171,19 @@ public class ProductControllerIntegrationTest {
 		mockMvc.perform(put("/product/update").contentType(MediaType.APPLICATION_JSON_UTF8)
 				.content(mapper.writeValueAsString(product)).accept(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(status().isOk()).andExpect(jsonPath("$.productId", is(testUuid.toString())));
+	}
+
+	@Test
+	@Transactional
+	@WithMockUser(username = "dbuser1", password = "password", roles = { "USER" })
+	public void testUpdateProduct_accessDenied() throws Exception {
+		Product product = new Product();
+		product.setProductId(testUuid);
+		product.setItem(22);
+		product.setsClass("test");
+		product.setInventory("test");
+		mockMvc.perform(put("/product/update").contentType(MediaType.APPLICATION_JSON_UTF8)
+				.content(mapper.writeValueAsString(product)).accept(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(status().isForbidden()).andExpect(jsonPath("$.message", is("Access is denied")));
 	}
 }

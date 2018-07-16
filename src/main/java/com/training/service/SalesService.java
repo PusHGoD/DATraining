@@ -2,6 +2,7 @@ package com.training.service;
 
 import java.util.List;
 
+import com.querydsl.core.types.Predicate;
 import com.training.model.cassandra.SalesCass;
 import com.training.model.jpa.Sales;
 
@@ -13,4 +14,5 @@ public interface SalesService {
 
 	public Sales updateSale(Sales sales);
 
+	public List<Sales> getSalesByQueryDslFromJpa(Predicate predicate);
 }

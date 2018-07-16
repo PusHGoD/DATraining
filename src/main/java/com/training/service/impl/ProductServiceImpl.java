@@ -68,6 +68,10 @@ public class ProductServiceImpl extends BaseService implements ProductService {
 			throw new NoDataFoundException("Product ID '" + product.getProductId() + "' not found in DB");
 		}
 		product.setModifiedAt(DateTimeUtil.getCurrent());
+		// int row = jpaRepository.setProductByProductId(product.getItem(),
+		// product.getsClass(),
+		// product.getInventory(), product.getModifiedAt(),
+		// product.getProductId());
 		return jpaRepository.save(product);
 	}
 
@@ -101,4 +105,13 @@ public class ProductServiceImpl extends BaseService implements ProductService {
 		return list;
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Product getOneProductByQueryDslFromJpa(Predicate predicate) {
+		Optional<Product> result = jpaRepository.findOne(predicate);
+		if (!result.isPresent()) {
+			throw new NoDataFoundException("Not found data in DB");
+		}
+		return result.get();
+	}
 }

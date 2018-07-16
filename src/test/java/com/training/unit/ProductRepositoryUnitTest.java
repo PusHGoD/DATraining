@@ -3,6 +3,7 @@ package com.training.unit;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.time.ZonedDateTime;
@@ -14,6 +15,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
@@ -26,7 +29,7 @@ import com.training.repository.ProductRepository;
 
 @RunWith(SpringRunner.class)
 @TestPropertySource(locations = "classpath:application-test.properties")
-@SpringBootTest
+@SpringBootTest(webEnvironment = WebEnvironment.NONE)
 @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:test.sql")
 // @SqlGroup({ @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts
 // = "classpath:test.sql"),
@@ -69,11 +72,25 @@ public class ProductRepositoryUnitTest {
 		Product result = repository
 				.save(new Product(testUuid2, 14, "TEST", "test", ZonedDateTime.now(), ZonedDateTime.now()));
 		assertNotNull(result);
+		assertEquals(14, result.getItem());
+		assertEquals("TEST", result.getsClass());
+		assertEquals("test", result.getInventory());
 	}
 
 	@Test(expected = InvalidDataAccessApiUsageException.class)
 	@Transactional
 	public void testAddNullProduct() {
 		repository.save(null);
+	}
+
+	@Test
+	@Transactional
+	public void testUpdateProduct() {
+		Product result = repository
+				.save(new Product(testUuid, 100, "UPDATED", "updated", ZonedDateTime.now(), ZonedDateTime.now()));
+		assertNotNull(result);
+		assertEquals(100, result.getItem());
+		assertEquals("UPDATED", result.getsClass());
+		assertEquals("updated", result.getInventory());
 	}
 }

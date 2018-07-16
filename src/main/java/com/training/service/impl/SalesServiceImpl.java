@@ -1,5 +1,6 @@
 package com.training.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.querydsl.core.types.Predicate;
 import com.training.exception.NoDataFoundException;
 import com.training.model.cassandra.SalesCass;
 import com.training.model.jpa.Sales;
@@ -51,4 +53,11 @@ public class SalesServiceImpl extends BaseService implements SalesService {
 		return jpaRepository.save(sales);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Sales> getSalesByQueryDslFromJpa(Predicate predicate) {
+		List<Sales> list = new ArrayList<>();
+		jpaRepository.findAll(predicate).forEach(list::add);
+		return list;
+	}
 }
