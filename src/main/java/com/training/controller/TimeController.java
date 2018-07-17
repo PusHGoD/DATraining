@@ -32,7 +32,7 @@ public class TimeController {
 	@Autowired
 	private TimeService service;
 
-	@GetMapping(value = "/", headers = "Accept=application/json")
+	@GetMapping(value = "", headers = "Accept=application/json")
 	public List<TimeDTO> getAllLocations() {
 		List<TimeCass> list = service.getAllTimes();
 		List<TimeDTO> dtoList = list.stream().map(time -> convertToDTO(time, DBType.CASSANDRA))

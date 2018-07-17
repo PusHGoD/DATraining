@@ -76,7 +76,7 @@ public class ProductServiceUnitTest {
 	}
 
 	@Test
-	public void testAddProductCorrectly() {
+	public void testAddProduct() {
 		Product product = new Product(testUuid2, 15, "Test1", "InventoryTest1", null, null);
 		when(jpaRepository.save(product)).thenReturn(product);
 		assertEquals(product, service.addProduct(product));

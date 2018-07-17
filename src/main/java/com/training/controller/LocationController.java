@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.querydsl.core.types.Predicate;
 import com.training.dto.LocationDTO;
-import com.training.dto.ProductDTO;
 import com.training.exception.BadRequestException;
 import com.training.exception.NoDataFoundException;
 import com.training.model.DBType;
@@ -39,7 +38,7 @@ public class LocationController {
 	@Autowired
 	private LocationService service;
 
-	@GetMapping(value = "/", headers = "Accept=application/json")
+	@GetMapping(value = "", headers = "Accept=application/json")
 	public List<LocationDTO> getAllLocations() {
 		List<LocationCass> list = service.getAllLocations();
 		List<LocationDTO> dtoList = list.stream().map(location -> convertToDTO(location, DBType.CASSANDRA))

@@ -13,9 +13,7 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,26 +38,16 @@ import com.training.model.jpa.Product;
 @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:test.sql")
 public class ProductControllerIntegrationTest {
 
+	UUID testUuid = UUID.fromString("b3c38100-7057-11e8-8754-c3e87a3d914c");
+	UUID testUuid2 = UUID.fromString("10b7f32a-fd4d-432b-8b53-d776db75b751");
+	UUID wrongTestUuid = UUID.fromString("c381032b-7057-11e8-8754-c3e87a3ddddc");
+	
 	private MockMvc mockMvc;
 
 	@Resource
 	private WebApplicationContext wac;
 
-	UUID testUuid = UUID.fromString("b3c38100-7057-11e8-8754-c3e87a3d914c");
-	UUID testUuid2 = UUID.fromString("10b7f32a-fd4d-432b-8b53-d776db75b751");
-	UUID wrongTestUuid = UUID.fromString("c381032b-7057-11e8-8754-c3e87a3ddddc");
-
 	private final ObjectMapper mapper = new ObjectMapper();
-
-	@BeforeClass
-	public static void setupData() {
-
-	}
-
-	@AfterClass
-	public static void removeData() {
-
-	}
 
 	@Before
 	public void setup() {

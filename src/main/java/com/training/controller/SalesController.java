@@ -33,7 +33,7 @@ public class SalesController {
 	@Autowired
 	private SalesService service;
 
-	@GetMapping(value = "/", headers = "Accept=application/json")
+	@GetMapping(value = "", headers = "Accept=application/json")
 	public List<SalesDTO> getAllSales() {
 		List<SalesCass> list = service.getAllSales();
 		List<SalesDTO> dtoList = list.stream().map(sales -> convertToDTO(sales, DBType.CASSANDRA))
